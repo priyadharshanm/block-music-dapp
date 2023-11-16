@@ -1,0 +1,69 @@
+.launch-music-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* background-image: url('abc.jpg'); Replace with the path to your actual image */
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .launch-music-content {
+    width: 300px;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .launch-music-content label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .launch-music-content input[type='text'],
+  .launch-music-content input[type='file'] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 5px;
+  }
+  
+  .launch-music-content button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .launch-music-content button:hover {
+    background-color: #45a049;
+  }
+  
+  .launch-music-content .exclusive-toggle {
+    margin-bottom: 15px;
+  }
+  
+  .launch-music-content .exclusive-toggle button {
+    margin-right: 5px;
+    background-color: #555;
+  }
+  
+  .launch-music-content .exclusive-toggle button.active {
+    background-color: #4caf50;
+  }
+  
+  .upload-section {
+    text-align: center;
+  }
+  
+  /* Adjust the styling as needed to match the provided image */
+  
