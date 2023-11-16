@@ -1,0 +1,49 @@
+.album-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* This centers the albums vertically */
+    justify-content: center; /* This centers the album list container */
+    min-height: 100vh; /* Make album list take at least the full height of the viewport */
+    padding: 20px;
+    background-color: #000;
+  }
+  
+  .album-card {
+    display: flex;
+    align-items: center;
+    width: 50%; /* Adjust this value to control the width of the cards */
+    max-width: 600px; /* You can set a max-width if you want */
+    margin: 10px auto; /* This adds spacing between the cards and centers them horizontally */
+    background-color: #333; /* Grey background for each album */
+    color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: Adds a subtle shadow to each card */
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+  
+  .album-card:hover {
+    transform: scale(1.03); /* Optional: Slight scale on hover for interactive effect */
+  }
+  
+  .album-cover {
+    width: 100px; /* Adjust as necessary */
+    height: 100px; /* Adjust as necessary */
+    object-fit: cover; /* This will ensure the image covers the area nicely */
+    margin-right: 20px; /* Adds some space between the image and the text */
+  }
+  
+  .album-info {
+    padding: 20px;
+    flex: 1; /* Allows the text container to fill the available space */
+  }
+  
+  .album-info h2 {
+    margin: 0 0 10px 0; /* Adds spacing below the title */
+    font-size: 1.5em;
+  }
+  
+  .album-info p {
+    margin: 5px 0;
+  }
+  
