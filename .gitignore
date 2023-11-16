@@ -1,0 +1,41 @@
+# Dependency directories
+node_modules/
+client/node_modules/
+
+# Build artifacts
+build/
+client/build/
+artifacts/
+cache/
+coverage/
+
+# Truffle artifacts
+client/src/contracts/
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE / Editor directories
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-workspace
+*.sublime-project
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+package-lock.json
