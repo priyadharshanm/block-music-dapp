@@ -46,4 +46,17 @@
   .album-info p {
     margin: 5px 0;
   }
+  .buy-button {
+    padding: 10px 20px;
+    margin-top: 10px;
+    background-color: #1db954; /* Spotify green, or any color you prefer */
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
   
+  .buy-button:hover {
+    background-color: #17a443; /* A darker shade for hover effect */
+  }
