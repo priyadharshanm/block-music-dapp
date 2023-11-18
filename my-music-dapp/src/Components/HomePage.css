@@ -1,0 +1,48 @@
+.home {
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .home-header {
+    /* Add styles for your header here */
+  }
+  
+  .latest-albums,
+  .exclusive-covers, .background {
+    text-align: center;
+    padding: 20px;
+    background-color: #000; /* Adjust color to match the design */
+  }
+  
+  .latest-albums h2,
+  .exclusive-covers h2 , .background h2{
+    color: #fff;
+    margin-bottom: 20px;
+  }
+  
+  .album,
+  .exclusive {
+    display: inline-block;
+    margin: 10px;
+    color: #fff;
+    /* Add more styling to match the design */
+  }
+  
+  .album img,
+  .exclusive img {
+    width: 150px; /* Adjust size to match the design */
+    margin-bottom: 5px;
+    border-radius: 10px; /* Adjust to match the design */
+  }
+  
+  .see-more {
+    background-color: #333; /* Adjust to match the design */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 20px;
+    border-radius: 5px;
+  }
+  
+  /* Add media queries and additional styling as needed */
+  
