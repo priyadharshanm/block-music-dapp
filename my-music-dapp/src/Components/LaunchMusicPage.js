@@ -4,7 +4,7 @@ import Web3 from 'web3';
 
 const web3 = new Web3(window.ethereum);
  // Your contract ABI
-const contractAddress = '0xb871cEBe1e62C8b1C26612C09DA34324Fd32E17e'; // Your contract address
+const contractAddress = '0xdbEB91FE240669Da91c699164c5a1b0ce82ff79a'; // Your contract address
 
 
   const LaunchMusicPage = () => {
@@ -33,7 +33,7 @@ const contractAddress = '0xb871cEBe1e62C8b1C26612C09DA34324Fd32E17e'; // Your co
         const priceInWei = web3.utils.toWei(priceInHarmonyTokens, 'ether'); // Convert price to Wei, if entering price in Ether
   
         const response = await contract.methods
-          .addExclusiveAlbum(albumName, priceInWei, royaltyPercentage, metadataUri)
+          .addExclusiveAlbum(albumName, artist, priceInWei, royaltyPercentage, metadataUri)
           .send({ from: accounts[0] }); // Use the first account to send the transaction
   
         console.log('Exclusive album added:', response);
@@ -121,6 +121,11 @@ const contractABI = [
 				"type": "string"
 			},
 			{
+				"internalType": "string",
+				"name": "artistName",
+				"type": "string"
+			},
+			{
 				"internalType": "uint256",
 				"name": "price",
 				"type": "uint256"
@@ -152,6 +157,11 @@ const contractABI = [
 			{
 				"internalType": "string",
 				"name": "albumName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "artistName",
 				"type": "string"
 			},
 			{
@@ -224,6 +234,11 @@ const contractABI = [
 			},
 			{
 				"internalType": "string",
+				"name": "artistName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
 				"name": "name",
 				"type": "string"
 			},
@@ -253,6 +268,11 @@ const contractABI = [
 			},
 			{
 				"internalType": "string",
+				"name": "artistName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
 				"name": "name",
 				"type": "string"
 			},
@@ -265,6 +285,19 @@ const contractABI = [
 				"internalType": "uint256",
 				"name": "royaltyPercentage",
 				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getExclusiveAlbumIds",
+		"outputs": [
+			{
+				"internalType": "uint256[]",
+				"name": "",
+				"type": "uint256[]"
 			}
 		],
 		"stateMutability": "view",
