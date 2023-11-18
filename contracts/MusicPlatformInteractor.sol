@@ -7,14 +7,17 @@ import "./HarmonyToken.sol";
 contract MusicPlatformInteractor {
     HarmonyToken private harmonyToken;
     MasterPieceToken private masterpieceToken;
+    uint256[] private exclusiveAlbumIds;
 
     struct Album {
         address artist;
+        string artistName;
         string name;
         uint256 price;
     }
     struct ExclusiveAlbum {
     address artist;
+    string artistName;
     string name;
     uint256 price; // price in HarmonyTokens
     uint256 royaltyPercentage; // e.g. 10 for 10%
@@ -30,9 +33,10 @@ contract MusicPlatformInteractor {
     }
 
     // Artist adds a new album and sets its price
-    function addNewAlbum(string memory albumName, uint256 price) external {
+    function addNewAlbum(string memory albumName, string memory artistName, uint256 price) external {
         Album memory newAlbum = Album({
             artist: msg.sender,
+            artistName: artistName,
             name: albumName,
             price: price
         });
@@ -51,12 +55,13 @@ contract MusicPlatformInteractor {
     }
 
     // Artist adds an exclusive album represented by a MasterPieceToken
-    function addExclusiveAlbum(string memory albumName, uint256 price, uint256 royaltyPercentage, string memory uri) external returns (uint256) {
+    function addExclusiveAlbum(string memory albumName, string memory artistName, uint256 price, uint256 royaltyPercentage, string memory uri) external returns (uint256) {
         uint256 tokenId = masterpieceToken.mintMasterpieceToken(msg.sender, uri);
-        
+        exclusiveAlbumIds.push(tokenId);
         ExclusiveAlbum memory newAlbum = ExclusiveAlbum({
             artist: msg.sender,
             name: albumName,
+            artistName: artistName,
             price: price,
             royaltyPercentage: royaltyPercentage
         });
@@ -81,5 +86,8 @@ contract MusicPlatformInteractor {
         masterpieceToken.transferTokenOwnership(tokenId, msg.sender);
     }
 
-    
+    function getExclusiveAlbumIds() public view returns (uint256[] memory) {
+        return exclusiveAlbumIds;
+    }
+
 }
