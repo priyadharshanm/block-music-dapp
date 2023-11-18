@@ -1,18 +1,40 @@
-import React from 'react';
-import './AlbumList.css'; // Ensure you have created a corresponding CSS file
+import React, { useState, useEffect } from 'react';
+import Web3 from 'web3';
+import './AlbumList.css';
+
+const web3 = new Web3(window.ethereum);
+const contractAddress = '0xdbEB91FE240669Da91c699164c5a1b0ce82ff79a'; 
 
 const AlbumList = () => {
-  const albums = [
-    { id: 1, title: 'Forever', artist: 'Taylor Swift', royalty: '10 HT', cover: '/assets/images/ts_album_cover.jpg' },
-    { id: 2, title: 'Thank U Next', artist: 'Ariana Grande', royalty: '18 HT', cover: '/assets/images/Thank_U_Next.jpg' },
-    { id: 3, title: 'Jai Ho', artist: 'A R Rahman', royalty: '12 HT', cover: '/assets/images/ar_rahman.jpg' },
-    { id: 4, title: 'Attention', artist: 'Charlie Puth', royalty: '17 HT', cover: '/assets/images/charlie_attention.jpg' },
-    // ... more albums
-  ];
+  const [albums, setAlbums] = useState([]);
+
+  useEffect(() => {
+    const fetchAlbums = async () => {
+      try {
+        const contract = new web3.eth.Contract(contractABI, contractAddress);
+        // Assuming your contract has a method to get all albums or a range of album IDs
+        const albumIds = await contract.methods.getExclusiveAlbumIds().call();
+        console.log(albumIds)
+        const albumsData = await Promise.all(
+          albumIds.map(async (id) => {
+            const album = await contract.methods.exclusiveAlbums(id).call();
+            console.log(album)
+            return { id, ...album };
+          })
+        );
+
+        setAlbums(albumsData);
+      } catch (error) {
+        console.error('Error fetching albums:', error);
+      }
+    };
+
+    fetchAlbums();
+  }, []);
 
   const handleBuyClick = (albumId) => {
-    // Implement the logic to handle buying an album, such as interacting with a smart contract
     console.log(`Buy album with ID: ${albumId}`);
+    // Implement the purchase logic here
   };
 
   return (
@@ -22,8 +44,12 @@ const AlbumList = () => {
           <img src={album.cover} alt={album.title} className="album-cover" />
           <div className="album-info">
             <h2>{album.title}</h2>
-            <p>Royalty: {album.royalty}</p>
-            <p>Artist: {album.artist}</p>
+            <p>Artist Name: {album.artistName}</p>
+            <p>Artist Address: {album.artist}</p>
+            <p>Album: {album.name}</p>
+            <p>Price: {album.price}</p>
+            <p>Royalty: {album.royaltyPercentage}</p>
+
             <button onClick={() => handleBuyClick(album.id)} className="buy-button">
               Own for {album.royalty}
             </button>
@@ -34,4 +60,209 @@ const AlbumList = () => {
   );
 };
 
+const contractABI = [
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "albumName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "artistName",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "price",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "royaltyPercentage",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "uri",
+				"type": "string"
+			}
+		],
+		"name": "addExclusiveAlbum",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "albumName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "artistName",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "price",
+				"type": "uint256"
+			}
+		],
+		"name": "addNewAlbum",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "albumId",
+				"type": "uint256"
+			}
+		],
+		"name": "buyAlbum",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "buyExclusiveAlbum",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_harmonyToken",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_masterpieceToken",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "albums",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "artist",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "artistName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "price",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "exclusiveAlbums",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "artist",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "artistName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "price",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "royaltyPercentage",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getExclusiveAlbumIds",
+		"outputs": [
+			{
+				"internalType": "uint256[]",
+				"name": "",
+				"type": "uint256[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "nextAlbumId",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
 export default AlbumList;
