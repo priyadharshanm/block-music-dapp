@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import './LaunchMusicPage.css'; // Make sure to create a corresponding CSS file.
 import Web3 from 'web3';
 import contractConfig from '../config/contractConfig';
+import axios from 'axios'; // Import axios for HTTP requests
 
 const web3 = new Web3(window.ethereum);
  // Your contract ABI
 
   const LaunchMusicPage = () => {
+    const [uploadStatus, setUploadStatus] = useState(''); // To track the upload status
     const [artist, setArtist] = useState('');
     const [albumName, setAlbumName] = useState('');
     const [royaltyPercentage, setRoyaltyPercentage] = useState('');
@@ -16,11 +18,7 @@ const web3 = new Web3(window.ethereum);
     const [image, setImage] = useState(null);
     const [artistAddress, setArtistAddress] = useState(''); // The artist's Ethereum address
     const [tokenURI, setTokenURI] = useState(''); // The metadata URI for the token
-    const handleImageUpload = (event) => {
-      const file = event.target.files[0];
-      setImage(file);
-      // Further file handling logic goes here
-    };
+
     const handleCreateExclusiveAlbum = async () => {
       try {
         await window.ethereum.request({ method: 'eth_requestAccounts' }); // Request account access if needed
@@ -63,7 +61,35 @@ const web3 = new Web3(window.ethereum);
 	  };
 	  
 	  
-	  
+	  const handleImageUpload = async (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+  
+      // FormData to handle file upload
+      const formData = new FormData();
+      formData.append('image', file);
+  
+      try {
+        setUploadStatus('Uploading...');
+        // Replace 'your-backend-endpoint' with your actual backend endpoint
+        const response = await axios.post('http://localhost:3001/upload', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+  
+        setUploadStatus('Upload successful');
+        console.log(response);
+        let fileUrl = response.data.url;
+
+        console.log(fileUrl);
+        // You can then set the URL received from your backend to your state
+        setMetadataUri(response.data.url); // Assuming the backend returns the URL
+      } catch (error) {
+        console.error('Error uploading file:', error);
+        setUploadStatus('Upload failed');
+      }
+    };
 
   // Add other handlers and logic as necessary
 
@@ -116,10 +142,14 @@ const web3 = new Web3(window.ethereum);
               />
             </>
           )}
-
+      <div className="upload-section">
+          <span>Add cover image here:</span>
+          <input type="file" onChange={handleImageUpload} />
+        {uploadStatus && <p>{uploadStatus}</p>}
+        </div>
         {isExclusive && ( // This line conditionally renders the button if isExclusive is true
           <button onClick={handleCreateExclusiveAlbum} className="generate-token-button">
-            Click here to generate Unique Masterpiece token!
+           Launch Exclusive Album (MasterpieceToken)! 
           </button>
         )}
 
@@ -133,11 +163,7 @@ const web3 = new Web3(window.ethereum);
         
         
         
-        <div className="upload-section">
-          <span>Add cover image here:</span>
-          <input type="file" onChange={handleImageUpload} />
-          <button>Upload Image</button>
-        </div>
+       
       </div>
     </div>
   );

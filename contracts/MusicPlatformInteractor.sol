@@ -22,6 +22,7 @@ contract MusicPlatformInteractor {
     string name;
     uint256 price; // price in HarmonyTokens
     uint256 royaltyPercentage; // e.g. 10 for 10%
+    string uri;
     }
 
     mapping(uint256 => ExclusiveAlbum) public exclusiveAlbums;  // tokenId to ExclusiveAlbum details
@@ -65,7 +66,8 @@ contract MusicPlatformInteractor {
             name: albumName,
             artistName: artistName,
             price: price,
-            royaltyPercentage: royaltyPercentage
+            royaltyPercentage: royaltyPercentage,
+            uri: uri
         });
         
         exclusiveAlbums[tokenId] = newAlbum;
