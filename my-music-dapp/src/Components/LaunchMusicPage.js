@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import './LaunchMusicPage.css'; // Make sure to create a corresponding CSS file.
 import Web3 from 'web3';
+import contractConfig from '../config/contractConfig';
 
 const web3 = new Web3(window.ethereum);
  // Your contract ABI
-const contractAddress = '0xa245A5Ad681eA0A9Fc3ef95c3eDdf9882F03F5c4'; // Your contract address
+const contractAddress = '0x434033dB8e1c99f155dAe1c9117468F8A2B0Fcde'; // Your contract address
 
 
   const LaunchMusicPage = () => {
@@ -29,7 +30,7 @@ const contractAddress = '0xa245A5Ad681eA0A9Fc3ef95c3eDdf9882F03F5c4'; // Your co
         
         if (!accounts) throw new Error("No account is provided. Please connect to MetaMask.");
   
-        const contract = new web3.eth.Contract(contractABI, contractAddress);
+        const contract = new web3.eth.Contract(contractConfig.contractABI, contractConfig.contractAddress);
         const priceInWei = web3.utils.toWei(priceInHarmonyTokens, 'ether'); // Convert price to Wei, if entering price in Ether
   
         const response = await contract.methods
@@ -50,13 +51,13 @@ const contractAddress = '0xa245A5Ad681eA0A9Fc3ef95c3eDdf9882F03F5c4'; // Your co
 	  
 		  if (!accounts) throw new Error("No account is provided. Please connect to MetaMask.");
 	  
-		  const contract = new web3.eth.Contract(contractABI, contractAddress);
+		  const contract = new web3.eth.Contract(contractConfig.contractABI, contractConfig.contractAddress);
 		  const priceInWei = web3.utils.toWei(priceInHarmonyTokens, 'ether'); // Convert price to Wei
 	 
 		  // Include artist in the function call
 		  const response = await contract.methods
-			.addNewAlbum(albumName, artist, priceInWei); // Use the first account to send the transaction
-	  
+			.addNewAlbum(albumName, artist, priceInWei) // Use the first account to send the transaction
+      .send({ from: accounts[0] });
 		  console.log('Album added:', response);
 		} catch (error) {
 		  console.error('Error creating album:', error);
@@ -143,222 +144,4 @@ const contractAddress = '0xa245A5Ad681eA0A9Fc3ef95c3eDdf9882F03F5c4'; // Your co
     </div>
   );
 };
-const contractABI = [
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "albumName",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "artistName",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "price",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "royaltyPercentage",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "uri",
-				"type": "string"
-			}
-		],
-		"name": "addExclusiveAlbum",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "albumName",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "artistName",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "price",
-				"type": "uint256"
-			}
-		],
-		"name": "addNewAlbum",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "albumId",
-				"type": "uint256"
-			}
-		],
-		"name": "buyAlbum",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
-			}
-		],
-		"name": "buyExclusiveAlbum",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_harmonyToken",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_masterpieceToken",
-				"type": "address"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "albums",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "artist",
-				"type": "address"
-			},
-			{
-				"internalType": "string",
-				"name": "artistName",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "name",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "price",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "exclusiveAlbums",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "artist",
-				"type": "address"
-			},
-			{
-				"internalType": "string",
-				"name": "artistName",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "name",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "price",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "royaltyPercentage",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getAllAlbumIds",
-		"outputs": [
-			{
-				"internalType": "uint256[]",
-				"name": "",
-				"type": "uint256[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getExclusiveAlbumIds",
-		"outputs": [
-			{
-				"internalType": "uint256[]",
-				"name": "",
-				"type": "uint256[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "nextAlbumId",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	}
-];
 export default LaunchMusicPage;
