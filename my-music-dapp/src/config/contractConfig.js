@@ -67,48 +67,6 @@ const contractConfig = {
             "inputs": [
                 {
                     "internalType": "uint256",
-                    "name": "albumId",
-                    "type": "uint256"
-                }
-            ],
-            "name": "buyAlbum",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "tokenId",
-                    "type": "uint256"
-                }
-            ],
-            "name": "buyExclusiveAlbum",
-            "outputs": [],
-            "stateMutability": "payable",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "_harmonyToken",
-                    "type": "address"
-                },
-                {
-                    "internalType": "address",
-                    "name": "_masterpieceToken",
-                    "type": "address"
-                }
-            ],
-            "stateMutability": "nonpayable",
-            "type": "constructor"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "uint256",
                     "name": "",
                     "type": "uint256"
                 }
@@ -137,6 +95,32 @@ const contractConfig = {
                 }
             ],
             "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "albumId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "buyAlbum",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "tokenId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "buyExclusiveAlbum",
+            "outputs": [],
+            "stateMutability": "payable",
             "type": "function"
         },
         {

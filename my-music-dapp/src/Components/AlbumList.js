@@ -4,6 +4,7 @@ import './AlbumList.css';
 import contractConfig from '../config/contractConfig';
 
 const web3 = new Web3(window.ethereum);
+// const contractAddress = '0xd44f06be272A392b4f5b59F442b20CA0146f3d19'; 
 
 const AlbumList = () => {
   const [albums, setAlbums] = useState([]);
