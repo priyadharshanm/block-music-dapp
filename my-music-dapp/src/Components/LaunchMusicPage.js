@@ -26,10 +26,10 @@ const web3 = new Web3(window.ethereum);
         if (!accounts) throw new Error("No account is provided. Please connect to MetaMask.");
   
         const contract = new web3.eth.Contract(contractConfig.contractABI, contractConfig.contractAddress);
-        const priceInWei = web3.utils.toWei(priceInHarmonyTokens, 'ether'); // Convert price to Wei, if entering price in Ether
+        // const priceInWei = web3.utils.toWei(priceInHarmonyTokens, 'ether'); // Convert price to Wei, if entering price in Ether
   
         const response = await contract.methods
-          .addExclusiveAlbum(albumName, artist, priceInWei, royaltyPercentage, metadataUri)
+          .addExclusiveAlbum(albumName, artist, priceInHarmonyTokens, royaltyPercentage, metadataUri)
           .send({ from: accounts[0] }); // Use the first account to send the transaction
   
         console.log('Exclusive album added:', response);
@@ -39,25 +39,25 @@ const web3 = new Web3(window.ethereum);
     };
   
 
-	const handleCreateAlbum = async () => {
-		try {
-		  await window.ethereum.request({ method: 'eth_requestAccounts' }); // Request account access if needed
-		  const accounts = await web3.eth.getAccounts(); // Get list of accounts
-	  
-		  if (!accounts) throw new Error("No account is provided. Please connect to MetaMask.");
-	  
-		  const contract = new web3.eth.Contract(contractConfig.contractABI, contractConfig.contractAddress);
-		  const priceInWei = web3.utils.toWei(priceInHarmonyTokens, 'ether'); // Convert price to Wei
-	 
-		  // Include artist in the function call
-		  const response = await contract.methods
-			.addNewAlbum(albumName, artist, priceInWei) // Use the first account to send the transaction
-      .send({ from: accounts[0] });
-		  console.log('Album added:', response);
-		} catch (error) {
-		  console.error('Error creating album:', error);
-		}
-	  };
+    const handleCreateAlbum = async () => {
+      try {
+        await window.ethereum.request({ method: 'eth_requestAccounts' }); // Request account access if needed
+        const accounts = await web3.eth.getAccounts(); // Get list of accounts
+        
+        if (!accounts) throw new Error("No account is provided. Please connect to MetaMask.");
+  
+        const contract = new web3.eth.Contract(contractConfig.contractABI, contractConfig.contractAddress);
+        // const priceInWei = web3.utils.toWei(priceInHarmonyTokens, 'ether'); // Convert price to Wei, if entering price in Ether
+  
+        const response = await contract.methods
+          .addNewAlbum(albumName, artist, priceInHarmonyTokens, metadataUri)
+          .send({ from: accounts[0] }); // Use the first account to send the transaction
+  
+        console.log('Exclusive album added:', response);
+      } catch (error) {
+        console.error('Error creating exclusive album:', error);
+      }
+    };
 	  
 	  
 	  const handleImageUpload = async (event) => {

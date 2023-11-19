@@ -1,5 +1,5 @@
 const contractConfig = {
-    contractAddress: '0x677292C1d8AA037262d15Cc23121C5717a322ae3',
+    contractAddress: '0xdDC5AC21e828747Ecb1b03Dd73750F2d6E7F090a',
     contractABI: [
         {
             "inputs": [
@@ -56,6 +56,11 @@ const contractConfig = {
                     "internalType": "uint256",
                     "name": "price",
                     "type": "uint256"
+                },
+                {
+                    "internalType": "string",
+                    "name": "uri",
+                    "type": "string"
                 }
             ],
             "name": "addNewAlbum",
@@ -134,6 +139,11 @@ const contractConfig = {
                     "internalType": "uint256",
                     "name": "price",
                     "type": "uint256"
+                },
+                {
+                    "internalType": "string",
+                    "name": "uri",
+                    "type": "string"
                 }
             ],
             "stateMutability": "view",

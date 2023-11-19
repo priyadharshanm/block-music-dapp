@@ -20,13 +20,15 @@ const AlbumList = () => {
           albumIds.map(async (id) => {
             const album = await contract.methods.exclusiveAlbums(id).call();
             console.log(album)
+            console.log("from wei",web3.utils.fromWei(album[4].toString(), 'ether'))
+            console.log("to wei",web3.utils.toWei(album[4].toString(), 'ether'))
             return {
                 id,
                 artist: album[1],
                 artistName: album[2],
                 name: album[3],
                 // Convert BigInt to string for rendering
-                price: web3.utils.fromWei(album[4].toString(), 'ether'),
+                price:Number(album[4]),
                 royaltyPercentage: album[5].toString(),
                 uri: album[6]
               };
@@ -49,6 +51,7 @@ const AlbumList = () => {
   const handleBuyExclusiveAlbum = async (tokenId, price) => {
     try {
       // Request account access if needed
+      const priceInWei = web3.utils.toWei(price.toString(), 'ether');
       await window.ethereum.request({ method: 'eth_requestAccounts' });
       // Get list of accounts
       const accounts = await web3.eth.getAccounts();
@@ -57,12 +60,26 @@ const AlbumList = () => {
   
       // Create a new contract instance with the ABI and address
       const contract = new web3.eth.Contract(contractConfig.contractABI, contractConfig.contractAddress);
-  
       // Call the buyExclusiveAlbum method from the smart contract
-      const response = await contract.methods.buyExclusiveAlbum(7)
-        .send({ from: accounts[0] });
+      try {
+        // Request account access if needed
+        window.ethereum.enable().then(() => {
+            // Account now exposed, can call contract methods
+            const contract = new web3.eth.Contract(contractConfig.contractABI, contractConfig.contractAddress);
+            contract.methods.buyExclusiveAlbum(tokenId)
+                .send({ from: accounts[0]})
+                .then(result => {
+                    console.log(result);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        });
+    } catch (error) {
+        console.error(error);
+    }
   
-      console.log('Transaction response:', response);
+    //   console.log('Transaction response:', response);
     } catch (error) {
       console.error('Error buying exclusive album:', error);
     }
