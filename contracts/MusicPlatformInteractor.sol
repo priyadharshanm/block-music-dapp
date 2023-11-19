@@ -54,8 +54,7 @@ contract MusicPlatformInteractor {
     function buyAlbum(uint256 albumId) external {
         require(albums[albumId].artist != address(0), "Album doesn't exist");
         require(harmonyToken.balanceOf(msg.sender) >= albums[albumId].price, "Insufficient balance");
-
-        harmonyToken.transferFrom(msg.sender, albums[albumId].artist, albums[albumId].price);
+        harmonyToken.transferHarmonyTokens( albums[albumId].artist, albums[albumId].price);
     }
 
     // Artist adds an exclusive album represented by a MasterPieceToken

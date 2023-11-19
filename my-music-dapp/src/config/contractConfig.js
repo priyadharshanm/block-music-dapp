@@ -1,5 +1,5 @@
 const contractConfig = {
-    contractAddress: '0x41DBB683A18c417e3Ba57715B434c53114AA940a',
+    contractAddress: '0x677292C1d8AA037262d15Cc23121C5717a322ae3',
     contractABI: [
         {
             "inputs": [
@@ -67,6 +67,48 @@ const contractConfig = {
             "inputs": [
                 {
                     "internalType": "uint256",
+                    "name": "albumId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "buyAlbum",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "tokenId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "buyExclusiveAlbum",
+            "outputs": [],
+            "stateMutability": "payable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "_harmonyToken",
+                    "type": "address"
+                },
+                {
+                    "internalType": "address",
+                    "name": "_masterpieceToken",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "nonpayable",
+            "type": "constructor"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
                     "name": "",
                     "type": "uint256"
                 }
@@ -95,32 +137,6 @@ const contractConfig = {
                 }
             ],
             "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "albumId",
-                    "type": "uint256"
-                }
-            ],
-            "name": "buyAlbum",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "tokenId",
-                    "type": "uint256"
-                }
-            ],
-            "name": "buyExclusiveAlbum",
-            "outputs": [],
-            "stateMutability": "payable",
             "type": "function"
         },
         {
@@ -193,6 +209,19 @@ const contractConfig = {
                     "internalType": "uint256[]",
                     "name": "",
                     "type": "uint256[]"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "harmonyToken",
+            "outputs": [
+                {
+                    "internalType": "contract IHarmonyToken",
+                    "name": "",
+                    "type": "address"
                 }
             ],
             "stateMutability": "view",
