@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import './LaunchMusicPage.css'; // Make sure to create a corresponding CSS file.
 import Web3 from 'web3';
+import contractConfig from '../config/contractConfig';
 
 const web3 = new Web3(window.ethereum);
  // Your contract ABI
-const contractAddress = '0xa245A5Ad681eA0A9Fc3ef95c3eDdf9882F03F5c4'; // Your contract address
+const contractAddress = '0x434033dB8e1c99f155dAe1c9117468F8A2B0Fcde'; // Your contract address
 
 
   const LaunchMusicPage = () => {
@@ -29,7 +30,7 @@ const contractAddress = '0xa245A5Ad681eA0A9Fc3ef95c3eDdf9882F03F5c4'; // Your co
         
         if (!accounts) throw new Error("No account is provided. Please connect to MetaMask.");
   
-        const contract = new web3.eth.Contract(contractABI, contractAddress);
+        const contract = new web3.eth.Contract(contractConfig.contractABI, contractConfig.contractAddress);
         const priceInWei = web3.utils.toWei(priceInHarmonyTokens, 'ether'); // Convert price to Wei, if entering price in Ether
   
         const response = await contract.methods
@@ -55,8 +56,8 @@ const contractAddress = '0xa245A5Ad681eA0A9Fc3ef95c3eDdf9882F03F5c4'; // Your co
 	 
 		  // Include artist in the function call
 		  const response = await contract.methods
-			.addNewAlbum(albumName, artist, priceInWei); // Use the first account to send the transaction
-	  
+			.addNewAlbum(albumName, artist, priceInWei) // Use the first account to send the transaction
+      .send({ from: accounts[0] });
 		  console.log('Album added:', response);
 		} catch (error) {
 		  console.error('Error creating album:', error);
