@@ -33,21 +33,44 @@ const HomePage = () => {
 
     fetchAlbums();
   }, []);
-  const handleBuyAlbum = async (albumId, price) => {
+ 
+
+const handleBuyAlbum = async (tokenId, price) => {
     try {
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
-        const accounts = await web3.eth.getAccounts();
-        if (!accounts) throw new Error("No account is provided. Please connect to MetaMask.");
-
-        const contract = new web3.eth.Contract(contractConfig.contractABI, contractConfig.contractAddress);
-        const priceInWei = web3.utils.toWei(price.toString(), 'ether');
-
-        await contract.methods.buyAlbum(albumId).send({ from: accounts[0], value: priceInWei });
-        console.log('Album purchased:', albumId);
+      // Request account access if needed
+      const priceInWei = web3.utils.toWei(price.toString(), 'ether');
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
+      // Get list of accounts
+      const accounts = await web3.eth.getAccounts();
+      // Check if we have access to user's account
+      if (!accounts) throw new Error("No account is provided. Please connect to MetaMask.");
+  
+      // Create a new contract instance with the ABI and address
+      const contract = new web3.eth.Contract(contractConfig.contractABI, contractConfig.contractAddress);
+      // Call the buyExclusiveAlbum method from the smart contract
+      try {
+        // Request account access if needed
+        window.ethereum.enable().then(() => {
+            // Account now exposed, can call contract methods
+            const contract = new web3.eth.Contract(contractConfig.contractABI, contractConfig.contractAddress);
+            contract.methods.buyAlbum(tokenId)
+                .send({ from: accounts[0]})
+                .then(result => {
+                    console.log(result);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        });
     } catch (error) {
-        console.error('Error purchasing album:', error);
+        console.error(error);
     }
-};
+  
+    //   console.log('Transaction response:', response);
+    } catch (error) {
+      console.error('Error buying exclusive album:', error);
+    }
+  };
 
   // Add other functionality as needed
 
