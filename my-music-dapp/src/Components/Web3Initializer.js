@@ -16,7 +16,7 @@ const Web3Initializer = () => {
   // Now you can use web3 in your component
   return (
     <div>
-      {web3 ? "Web3 is initialized" : "Web3 is not initialized"}
+      {/* {web3 ? "Web3 is initialized" : "Web3 is not initialized"} */}
     </div>
   );
 };

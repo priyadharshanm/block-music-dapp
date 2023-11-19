@@ -28,6 +28,40 @@
   color: #61dafb;
 }
 
+/* App.css or another main stylesheet */
+
+/* This sets the background of the header and changes the text color to white */
+.nav {
+  background-color: #000;
+  color: white;
+  padding: 10px 0;
+  text-align: center;
+}
+
+/* This styles the navigation links or buttons */
+.nav-link {
+  display: inline-block;
+  padding: 10px 20px;
+  color: white;
+  text-decoration: none;
+  margin: 0 10px;
+  transition: background-color 0.3s ease;
+}
+
+/* This changes the background color of the buttons on hover */
+.nav-link:hover {
+  background-color: #555;
+  cursor: pointer;
+}
+
+/* This sets the layout of the header to display flex and center the items */
+.nav-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
