@@ -82,8 +82,8 @@ contract MusicPlatformInteractor {
         address artist = exclusiveAlbums[tokenId].artist;
         uint256 royaltyAmount = (exclusiveAlbums[tokenId].price * exclusiveAlbums[tokenId].royaltyPercentage) / 100;
 
-        harmonyToken.transferFrom(msg.sender, artist, royaltyAmount);
-        harmonyToken.transferFrom(msg.sender, previousOwner, exclusiveAlbums[tokenId].price - royaltyAmount);
+        harmonyToken.transferHarmonyTokens(artist, royaltyAmount);
+        harmonyToken.transferHarmonyTokens(previousOwner, exclusiveAlbums[tokenId].price - royaltyAmount);
         
         masterpieceToken.transferTokenOwnership(tokenId, msg.sender);
     }
