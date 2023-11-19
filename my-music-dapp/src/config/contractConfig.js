@@ -1,5 +1,5 @@
 const contractConfig = {
-    contractAddress: '0xfD1Af7662b72B0e2eCDb7C566c40a48C02B77829',
+    contractAddress: '0x41DBB683A18c417e3Ba57715B434c53114AA940a',
     contractABI: [
         {
             "inputs": [
@@ -12,11 +12,6 @@ const contractConfig = {
                     "internalType": "string",
                     "name": "artistName",
                     "type": "string"
-                },
-                {
-                    "internalType": "address",
-                    "name": "artistAddress",
-                    "type": "address"
                 },
                 {
                     "internalType": "uint256",

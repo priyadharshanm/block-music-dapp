@@ -16,7 +16,6 @@ const web3 = new Web3(window.ethereum);
     const [isExclusive, setIsExclusive] = useState(false);
     const [priceInHarmonyTokens, setPriceInHarmonyTokens] = useState('');
     const [image, setImage] = useState(null);
-    const [artistAddress, setArtistAddress] = useState(''); // The artist's Ethereum address
     const [tokenURI, setTokenURI] = useState(''); // The metadata URI for the token
 
     const handleCreateExclusiveAlbum = async () => {
@@ -30,7 +29,7 @@ const web3 = new Web3(window.ethereum);
         const priceInWei = web3.utils.toWei(priceInHarmonyTokens, 'ether'); // Convert price to Wei, if entering price in Ether
   
         const response = await contract.methods
-          .addExclusiveAlbum(albumName, artist, artistAddress, priceInWei, royaltyPercentage, metadataUri)
+          .addExclusiveAlbum(albumName, artist, priceInWei, royaltyPercentage, metadataUri)
           .send({ from: accounts[0] }); // Use the first account to send the transaction
   
         console.log('Exclusive album added:', response);
@@ -102,13 +101,6 @@ const web3 = new Web3(window.ethereum);
           type="text"
           value={artist}
           onChange={(e) => setArtist(e.target.value)}
-        />
-        <label htmlFor="artist-address">Artist Address:</label>
-        <input
-          id="artist-address"
-          type="text"
-          value={artistAddress}
-          onChange={(e) => setArtistAddress(e.target.value)}
         />
 
         <label htmlFor="album-name">Album Name:</label>
