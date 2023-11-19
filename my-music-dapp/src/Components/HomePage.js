@@ -39,7 +39,7 @@ const HomePage = () => {
         const accounts = await web3.eth.getAccounts();
         if (!accounts) throw new Error("No account is provided. Please connect to MetaMask.");
 
-        const contract = new web3.eth.Contract(contractABI, contractAddress);
+        const contract = new web3.eth.Contract(contractConfig.contractABI, contractConfig.contractAddress);
         const priceInWei = web3.utils.toWei(price.toString(), 'ether');
 
         await contract.methods.buyAlbum(albumId).send({ from: accounts[0], value: priceInWei });

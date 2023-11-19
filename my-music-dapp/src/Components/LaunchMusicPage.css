@@ -1,10 +1,10 @@
-.launch-music-container {
+/* .launch-music-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 100vh; */
     /* background-image: url('abc.jpg'); Replace with the path to your actual image */
-    background-size: cover;
+    /* background-size: cover;
     background-position: center;
   }
   
@@ -63,7 +63,49 @@
   
   .upload-section {
     text-align: center;
-  }
+  } */
   
   /* Adjust the styling as needed to match the provided image */
+  /* LaunchMusicPage.css */
+
+  .launch-music-container {
+    background: url('1.jpeg') no-repeat center center;
+    background-size: cover;
+  }
+  
+  .launch-music-content {
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 500px;
+    margin: auto;
+    color: white; /* White text color */
+  }
+  
+  .launch-music-content label,
+  .launch-music-content input,
+  .launch-music-content button {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+  }
+  
+  .launch-music-content input,
+  .launch-music-content button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+  }
+  
+  .launch-music-content button {
+    background-color: #654b89; /* Green background for buttons */
+    color: white;
+    cursor: pointer;
+  }
+  
+  .launch-music-content button:hover {
+    background-color: #654b89; /* Darker green on hover */
+  }
+  
+  /* Add additional styles for other elements as needed */
   
