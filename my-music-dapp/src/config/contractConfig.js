@@ -1,5 +1,5 @@
 const contractConfig = {
-    contractAddress: '0x92e5979d366365f0e7f3F4baF0770226456Fc2AB',
+    contractAddress: '0x41DBB683A18c417e3Ba57715B434c53114AA940a',
     contractABI: [
         {
             "inputs": [
@@ -12,11 +12,6 @@ const contractConfig = {
                     "internalType": "string",
                     "name": "artistName",
                     "type": "string"
-                },
-                {
-                    "internalType": "address",
-                    "name": "artistAddress",
-                    "type": "address"
                 },
                 {
                     "internalType": "uint256",
@@ -167,6 +162,11 @@ const contractConfig = {
                     "internalType": "uint256",
                     "name": "royaltyPercentage",
                     "type": "uint256"
+                },
+                {
+                    "internalType": "string",
+                    "name": "uri",
+                    "type": "string"
                 }
             ],
             "stateMutability": "view",

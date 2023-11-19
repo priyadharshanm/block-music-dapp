@@ -27,7 +27,8 @@ const AlbumList = () => {
                 name: album[3],
                 // Convert BigInt to string for rendering
                 price: web3.utils.fromWei(album[4].toString(), 'ether'),
-                royaltyPercentage: album[5].toString()
+                royaltyPercentage: album[5].toString(),
+                uri: album[6]
               };
           })
         );
@@ -72,7 +73,7 @@ const AlbumList = () => {
     <div className="album-list">
       {albums.map(album => (
         <div key={album.id} className="album-card">
-          <img src={album.cover} alt={album.title} className="album-cover" />
+          <img src={album.uri} alt={album.title} className="album-cover" />
           <div className="album-info">
             <h2>{album.title}</h2>
             <p>Artist Name: {album.artistName}</p>

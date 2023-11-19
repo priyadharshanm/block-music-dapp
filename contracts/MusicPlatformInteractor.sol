@@ -22,6 +22,7 @@ contract MusicPlatformInteractor {
     string name;
     uint256 price; // price in HarmonyTokens
     uint256 royaltyPercentage; // e.g. 10 for 10%
+    string uri;
     }
 
     mapping(uint256 => ExclusiveAlbum) public exclusiveAlbums;  // tokenId to ExclusiveAlbum details
@@ -56,16 +57,17 @@ contract MusicPlatformInteractor {
     }
 
     // Artist adds an exclusive album represented by a MasterPieceToken
-    function addExclusiveAlbum(string memory albumName, string memory artistName, address artistAddress, uint256 price, uint256 royaltyPercentage, string memory uri) external returns (uint256) {
+    function addExclusiveAlbum(string memory albumName, string memory artistName, uint256 price, uint256 royaltyPercentage, string memory uri) external returns (uint256) {
         uint256 tokenId = masterpieceToken.mintMasterpieceToken(msg.sender, uri);
         exclusiveAlbumIds.push(tokenId);
         ExclusiveAlbum memory newAlbum = ExclusiveAlbum({
             tokenId: tokenId,
-            artist: artistAddress,
+            artist: msg.sender,
             name: albumName,
             artistName: artistName,
             price: price,
-            royaltyPercentage: royaltyPercentage
+            royaltyPercentage: royaltyPercentage,
+            uri: uri
         });
         
         exclusiveAlbums[tokenId] = newAlbum;
