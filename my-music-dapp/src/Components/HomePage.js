@@ -33,6 +33,21 @@ const HomePage = () => {
 
     fetchAlbums();
   }, []);
+  const handleBuyAlbum = async (albumId, price) => {
+    try {
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const accounts = await web3.eth.getAccounts();
+        if (!accounts) throw new Error("No account is provided. Please connect to MetaMask.");
+
+        const contract = new web3.eth.Contract(contractABI, contractAddress);
+        const priceInWei = web3.utils.toWei(price.toString(), 'ether');
+
+        await contract.methods.buyAlbum(albumId).send({ from: accounts[0], value: priceInWei });
+        console.log('Album purchased:', albumId);
+    } catch (error) {
+        console.error('Error purchasing album:', error);
+    }
+};
 
   // Add other functionality as needed
 
@@ -55,9 +70,12 @@ const HomePage = () => {
             {/* Replace with actual path to album cover */}
             <img src={album.coverUrl || 'default_album_cover.jpg'} alt={album.name} />
             <p>{album.name} [Buy for {album.price} HT]</p>
+            <button onClick={() => handleBuyAlbum(album.id, album.price)} className="buy-button">
+                            Buy Album
+                        </button>
           </div>
         ))}
-        <button className="see-more">See More</button>
+       
       </section>
       
       {/* ... other sections ... */}
