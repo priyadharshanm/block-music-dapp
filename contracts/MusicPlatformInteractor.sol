@@ -4,8 +4,10 @@ pragma solidity ^0.8.2;
 import "./MasterPieceToken.sol";
 import "./HarmonyToken.sol";
 
+
 contract MusicPlatformInteractor {
-    HarmonyToken private harmonyToken;
+    IHarmonyToken public harmonyToken;
+    // HarmonyToken private harmonyToken;
     MasterPieceToken private masterpieceToken;
     uint256[] private exclusiveAlbumIds;
 
@@ -30,7 +32,7 @@ contract MusicPlatformInteractor {
     uint256 public nextAlbumId = 1;
 
     constructor(address _harmonyToken, address _masterpieceToken) {
-        harmonyToken = HarmonyToken(_harmonyToken);
+        harmonyToken = IHarmonyToken(_harmonyToken);
         masterpieceToken = MasterPieceToken(_masterpieceToken);
     }
 
@@ -80,12 +82,12 @@ contract MusicPlatformInteractor {
         require(exclusiveAlbums[tokenId].artist != address(0), "Album doesn't exist");
         require(harmonyToken.balanceOf(msg.sender) >= exclusiveAlbums[tokenId].price, "Insufficient balance");
         
-        address previousOwner = masterpieceToken.ownerOf(tokenId);
+        // address previousOwner = masterpieceToken.ownerOf(tokenId);
         address artist = exclusiveAlbums[tokenId].artist;
         uint256 royaltyAmount = (exclusiveAlbums[tokenId].price * exclusiveAlbums[tokenId].royaltyPercentage) / 100;
 
         harmonyToken.transferHarmonyTokens(artist, royaltyAmount);
-        harmonyToken.transferHarmonyTokens(previousOwner, exclusiveAlbums[tokenId].price - royaltyAmount);
+        // harmonyToken.transferHarmonyTokens(previousOwner, exclusiveAlbums[tokenId].price - royaltyAmount);
         
         masterpieceToken.transferTokenOwnership(tokenId, msg.sender);
     }
