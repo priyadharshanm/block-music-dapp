@@ -5,8 +5,6 @@ import contractConfig from '../config/contractConfig';
 
 const web3 = new Web3(window.ethereum);
  // Your contract ABI
-const contractAddress = '0x434033dB8e1c99f155dAe1c9117468F8A2B0Fcde'; // Your contract address
-
 
   const LaunchMusicPage = () => {
     const [artist, setArtist] = useState('');
@@ -34,7 +32,7 @@ const contractAddress = '0x434033dB8e1c99f155dAe1c9117468F8A2B0Fcde'; // Your co
         const priceInWei = web3.utils.toWei(priceInHarmonyTokens, 'ether'); // Convert price to Wei, if entering price in Ether
   
         const response = await contract.methods
-          .addExclusiveAlbum(albumName, artist, priceInWei, royaltyPercentage, metadataUri)
+          .addExclusiveAlbum(albumName, artist, artistAddress, priceInWei, royaltyPercentage, metadataUri)
           .send({ from: accounts[0] }); // Use the first account to send the transaction
   
         console.log('Exclusive album added:', response);
