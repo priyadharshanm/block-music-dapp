@@ -16,4 +16,12 @@ contract HarmonyToken is ERC20 {
         // Transfer HT tokens from the buyer to the recipient (song creator).
         _transfer(msg.sender, recipient, amount);
     }
+
+     function transferTokens(address recipient, uint256 amount) external {
+        _transfer(msg.sender, recipient, amount);
+    }
+
+    function transferHarmonyTokens(address recipient, uint256 amount) external{
+        _transfer(msg.sender, recipient,amount);
+    }
 }
