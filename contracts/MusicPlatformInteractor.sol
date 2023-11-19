@@ -89,5 +89,12 @@ contract MusicPlatformInteractor {
     function getExclusiveAlbumIds() public view returns (uint256[] memory) {
         return exclusiveAlbumIds;
     }
-
+ // Function to get all non-exclusive album IDs
+    function getAllAlbumIds() public view returns (uint256[] memory) {
+        uint256[] memory ids = new uint256[](nextAlbumId - 1);
+        for (uint256 i = 1; i < nextAlbumId; i++) {
+            ids[i - 1] = i;
+        }
+        return ids;
+    }
 }

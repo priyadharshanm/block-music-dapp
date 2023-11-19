@@ -6,11 +6,34 @@
     /* Add styles for your header here */
   }
   
-  .latest-albums,
-  .exclusive-covers, .background {
+  .background {
+    background-image: url('bg1.png');
+    background-size: cover; /* Ensure the image covers the entire element */
+    background-position: center; /* Center the image within the element */
+    /* Add more styles as needed */
+}
+
+.latest-albums {
+    background-image: url('bg2.png');
+    background-size: cover; /* Ensure the image covers the entire element */
+    background-position: center; /* Center the image within the element */
+    /* Add more styles as needed */
+}
+
+
+  .latest-albums {
     text-align: center;
     padding: 20px;
-    background-color: #000; /* Adjust color to match the design */
+    /* Adjust color to match the design */
+    padding: 25%;
+    height: 20px;
+  }
+  .background {
+    text-align: center;
+    padding: 20px;
+    /* Adjust color to match the design */
+    padding: 25%;
+   
   }
   
   .latest-albums h2,
@@ -45,4 +68,4 @@
   }
   
   /* Add media queries and additional styling as needed */
-  
+ 

@@ -4,7 +4,7 @@ import Web3 from 'web3';
 
 const web3 = new Web3(window.ethereum);
  // Your contract ABI
-const contractAddress = '0xdbEB91FE240669Da91c699164c5a1b0ce82ff79a'; // Your contract address
+const contractAddress = '0xa245A5Ad681eA0A9Fc3ef95c3eDdf9882F03F5c4'; // Your contract address
 
 
   const LaunchMusicPage = () => {
@@ -42,6 +42,29 @@ const contractAddress = '0xdbEB91FE240669Da91c699164c5a1b0ce82ff79a'; // Your co
       }
     };
   
+
+	const handleCreateAlbum = async () => {
+		try {
+		  await window.ethereum.request({ method: 'eth_requestAccounts' }); // Request account access if needed
+		  const accounts = await web3.eth.getAccounts(); // Get list of accounts
+	  
+		  if (!accounts) throw new Error("No account is provided. Please connect to MetaMask.");
+	  
+		  const contract = new web3.eth.Contract(contractABI, contractAddress);
+		  const priceInWei = web3.utils.toWei(priceInHarmonyTokens, 'ether'); // Convert price to Wei
+	 
+		  // Include artist in the function call
+		  const response = await contract.methods
+			.addNewAlbum(albumName, artist, priceInWei); // Use the first account to send the transaction
+	  
+		  console.log('Album added:', response);
+		} catch (error) {
+		  console.error('Error creating album:', error);
+		}
+	  };
+	  
+	  
+	  
 
   // Add other handlers and logic as necessary
 
@@ -100,6 +123,14 @@ const contractAddress = '0xdbEB91FE240669Da91c699164c5a1b0ce82ff79a'; // Your co
             Click here to generate Unique Masterpiece token!
           </button>
         )}
+
+
+
+{!isExclusive && ( 
+  <button onClick={handleCreateAlbum} className="launch-album-button">
+    Launch Album!
+  </button>
+)}
         
         
         
@@ -285,6 +316,19 @@ const contractABI = [
 				"internalType": "uint256",
 				"name": "royaltyPercentage",
 				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getAllAlbumIds",
+		"outputs": [
+			{
+				"internalType": "uint256[]",
+				"name": "",
+				"type": "uint256[]"
 			}
 		],
 		"stateMutability": "view",
