@@ -3,7 +3,7 @@ import Web3 from 'web3';
 import './AlbumList.css';
 
 const web3 = new Web3(window.ethereum);
-const contractAddress = '0xdbEB91FE240669Da91c699164c5a1b0ce82ff79a'; 
+const contractAddress = '0xa245A5Ad681eA0A9Fc3ef95c3eDdf9882F03F5c4'; 
 
 const AlbumList = () => {
   const [albums, setAlbums] = useState([]);
