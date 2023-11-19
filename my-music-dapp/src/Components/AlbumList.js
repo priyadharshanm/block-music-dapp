@@ -19,7 +19,15 @@ const AlbumList = () => {
           albumIds.map(async (id) => {
             const album = await contract.methods.exclusiveAlbums(id).call();
             console.log(album)
-            return { id, ...album };
+            return {
+                id,
+                artist: album[1],
+                artistName: album[2],
+                name: album[3],
+                // Convert BigInt to string for rendering
+                price: web3.utils.fromWei(album[4].toString(), 'ether'),
+                royaltyPercentage: album[5].toString()
+              };
           })
         );
 
@@ -36,6 +44,28 @@ const AlbumList = () => {
     console.log(`Buy album with ID: ${albumId}`);
     // Implement the purchase logic here
   };
+  const handleBuyExclusiveAlbum = async (tokenId, price) => {
+    try {
+      // Request account access if needed
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
+      // Get list of accounts
+      const accounts = await web3.eth.getAccounts();
+      // Check if we have access to user's account
+      if (!accounts) throw new Error("No account is provided. Please connect to MetaMask.");
+  
+      // Create a new contract instance with the ABI and address
+      const contract = new web3.eth.Contract(contractConfig.contractABI, contractConfig.contractAddress);
+  
+      // Call the buyExclusiveAlbum method from the smart contract
+      const response = await contract.methods.buyExclusiveAlbum(7)
+        .send({ from: accounts[0] });
+  
+      console.log('Transaction response:', response);
+    } catch (error) {
+      console.error('Error buying exclusive album:', error);
+    }
+  };
+  
 
   return (
     <div className="album-list">
@@ -47,11 +77,11 @@ const AlbumList = () => {
             <p>Artist Name: {album.artistName}</p>
             <p>Artist Address: {album.artist}</p>
             <p>Album: {album.name}</p>
-            <p>Price: {album.price}</p>
+            <p>Price: {album.price} HT</p>
             <p>Royalty: {album.royaltyPercentage}</p>
 
-            <button onClick={() => handleBuyClick(album.id)} className="buy-button">
-              Own for {album.royalty}
+            <button onClick={() => handleBuyExclusiveAlbum(album.id, album.price)} className="buy-button">
+            Own for {album.price}
             </button>
           </div>
         </div>
@@ -59,210 +89,4 @@ const AlbumList = () => {
     </div>
   );
 };
-
-// const contractABI = [
-// 	{
-// 		"inputs": [
-// 			{
-// 				"internalType": "string",
-// 				"name": "albumName",
-// 				"type": "string"
-// 			},
-// 			{
-// 				"internalType": "string",
-// 				"name": "artistName",
-// 				"type": "string"
-// 			},
-// 			{
-// 				"internalType": "uint256",
-// 				"name": "price",
-// 				"type": "uint256"
-// 			},
-// 			{
-// 				"internalType": "uint256",
-// 				"name": "royaltyPercentage",
-// 				"type": "uint256"
-// 			},
-// 			{
-// 				"internalType": "string",
-// 				"name": "uri",
-// 				"type": "string"
-// 			}
-// 		],
-// 		"name": "addExclusiveAlbum",
-// 		"outputs": [
-// 			{
-// 				"internalType": "uint256",
-// 				"name": "",
-// 				"type": "uint256"
-// 			}
-// 		],
-// 		"stateMutability": "nonpayable",
-// 		"type": "function"
-// 	},
-// 	{
-// 		"inputs": [
-// 			{
-// 				"internalType": "string",
-// 				"name": "albumName",
-// 				"type": "string"
-// 			},
-// 			{
-// 				"internalType": "string",
-// 				"name": "artistName",
-// 				"type": "string"
-// 			},
-// 			{
-// 				"internalType": "uint256",
-// 				"name": "price",
-// 				"type": "uint256"
-// 			}
-// 		],
-// 		"name": "addNewAlbum",
-// 		"outputs": [],
-// 		"stateMutability": "nonpayable",
-// 		"type": "function"
-// 	},
-// 	{
-// 		"inputs": [
-// 			{
-// 				"internalType": "uint256",
-// 				"name": "albumId",
-// 				"type": "uint256"
-// 			}
-// 		],
-// 		"name": "buyAlbum",
-// 		"outputs": [],
-// 		"stateMutability": "nonpayable",
-// 		"type": "function"
-// 	},
-// 	{
-// 		"inputs": [
-// 			{
-// 				"internalType": "uint256",
-// 				"name": "tokenId",
-// 				"type": "uint256"
-// 			}
-// 		],
-// 		"name": "buyExclusiveAlbum",
-// 		"outputs": [],
-// 		"stateMutability": "payable",
-// 		"type": "function"
-// 	},
-// 	{
-// 		"inputs": [
-// 			{
-// 				"internalType": "address",
-// 				"name": "_harmonyToken",
-// 				"type": "address"
-// 			},
-// 			{
-// 				"internalType": "address",
-// 				"name": "_masterpieceToken",
-// 				"type": "address"
-// 			}
-// 		],
-// 		"stateMutability": "nonpayable",
-// 		"type": "constructor"
-// 	},
-// 	{
-// 		"inputs": [
-// 			{
-// 				"internalType": "uint256",
-// 				"name": "",
-// 				"type": "uint256"
-// 			}
-// 		],
-// 		"name": "albums",
-// 		"outputs": [
-// 			{
-// 				"internalType": "address",
-// 				"name": "artist",
-// 				"type": "address"
-// 			},
-// 			{
-// 				"internalType": "string",
-// 				"name": "artistName",
-// 				"type": "string"
-// 			},
-// 			{
-// 				"internalType": "string",
-// 				"name": "name",
-// 				"type": "string"
-// 			},
-// 			{
-// 				"internalType": "uint256",
-// 				"name": "price",
-// 				"type": "uint256"
-// 			}
-// 		],
-// 		"stateMutability": "view",
-// 		"type": "function"
-// 	},
-// 	{
-// 		"inputs": [
-// 			{
-// 				"internalType": "uint256",
-// 				"name": "",
-// 				"type": "uint256"
-// 			}
-// 		],
-// 		"name": "exclusiveAlbums",
-// 		"outputs": [
-// 			{
-// 				"internalType": "address",
-// 				"name": "artist",
-// 				"type": "address"
-// 			},
-// 			{
-// 				"internalType": "string",
-// 				"name": "artistName",
-// 				"type": "string"
-// 			},
-// 			{
-// 				"internalType": "string",
-// 				"name": "name",
-// 				"type": "string"
-// 			},
-// 			{
-// 				"internalType": "uint256",
-// 				"name": "price",
-// 				"type": "uint256"
-// 			},
-// 			{
-// 				"internalType": "uint256",
-// 				"name": "royaltyPercentage",
-// 				"type": "uint256"
-// 			}
-// 		],
-// 		"stateMutability": "view",
-// 		"type": "function"
-// 	},
-// 	{
-// 		"inputs": [],
-// 		"name": "getExclusiveAlbumIds",
-// 		"outputs": [
-// 			{
-// 				"internalType": "uint256[]",
-// 				"name": "",
-// 				"type": "uint256[]"
-// 			}
-// 		],
-// 		"stateMutability": "view",
-// 		"type": "function"
-// 	},
-// 	{
-// 		"inputs": [],
-// 		"name": "nextAlbumId",
-// 		"outputs": [
-// 			{
-// 				"internalType": "uint256",
-// 				"name": "",
-// 				"type": "uint256"
-// 			}
-// 		],
-// 		"stateMutability": "view",
-// 		"type": "function"
-// 	}
-// ];
 export default AlbumList;

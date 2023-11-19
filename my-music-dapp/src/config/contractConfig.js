@@ -1,5 +1,5 @@
 const contractConfig = {
-    contractAddress: '0x80a21F29A195A09418Ece25874835A99827f4A5c',
+    contractAddress: '0x30B7ebB9a1Af59147cDc95e30Ec76e783f159252',
     contractABI: [
         {
             "inputs": [
@@ -12,6 +12,11 @@ const contractConfig = {
                     "internalType": "string",
                     "name": "artistName",
                     "type": "string"
+                },
+                {
+                    "internalType": "address",
+                    "name": "artistAddress",
+                    "type": "address"
                 },
                 {
                     "internalType": "uint256",
@@ -150,6 +155,11 @@ const contractConfig = {
             "name": "exclusiveAlbums",
             "outputs": [
                 {
+                    "internalType": "uint256",
+                    "name": "tokenId",
+                    "type": "uint256"
+                },
+                {
                     "internalType": "address",
                     "name": "artist",
                     "type": "address"
@@ -218,7 +228,7 @@ const contractConfig = {
             "type": "function"
         }
     ]
-  };
+};
   
   export default contractConfig;
   

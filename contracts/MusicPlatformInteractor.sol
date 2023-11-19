@@ -16,6 +16,7 @@ contract MusicPlatformInteractor {
         uint256 price;
     }
     struct ExclusiveAlbum {
+    uint256 tokenId;
     address artist;
     string artistName;
     string name;
@@ -55,11 +56,12 @@ contract MusicPlatformInteractor {
     }
 
     // Artist adds an exclusive album represented by a MasterPieceToken
-    function addExclusiveAlbum(string memory albumName, string memory artistName, uint256 price, uint256 royaltyPercentage, string memory uri) external returns (uint256) {
+    function addExclusiveAlbum(string memory albumName, string memory artistName, address artistAddress, uint256 price, uint256 royaltyPercentage, string memory uri) external returns (uint256) {
         uint256 tokenId = masterpieceToken.mintMasterpieceToken(msg.sender, uri);
         exclusiveAlbumIds.push(tokenId);
         ExclusiveAlbum memory newAlbum = ExclusiveAlbum({
-            artist: msg.sender,
+            tokenId: tokenId,
+            artist: artistAddress,
             name: albumName,
             artistName: artistName,
             price: price,
