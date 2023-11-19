@@ -16,6 +16,7 @@ contract MusicPlatformInteractor {
         string artistName;
         string name;
         uint256 price;
+        string uri;
     }
     struct ExclusiveAlbum {
     uint256 tokenId;
@@ -37,12 +38,13 @@ contract MusicPlatformInteractor {
     }
 
     // Artist adds a new album and sets its price
-    function addNewAlbum(string memory albumName, string memory artistName, uint256 price) external {
+    function addNewAlbum(string memory albumName, string memory artistName, uint256 price, string memory uri) external {
         Album memory newAlbum = Album({
             artist: msg.sender,
             artistName: artistName,
             name: albumName,
-            price: price
+            price: price,
+            uri: uri
         });
 
         albums[nextAlbumId] = newAlbum;
@@ -54,7 +56,8 @@ contract MusicPlatformInteractor {
     function buyAlbum(uint256 albumId) external {
         require(albums[albumId].artist != address(0), "Album doesn't exist");
         require(harmonyToken.balanceOf(msg.sender) >= albums[albumId].price, "Insufficient balance");
-        harmonyToken.transferHarmonyTokens( albums[albumId].artist, albums[albumId].price);
+
+        harmonyToken.transferHarmonyTokens(albums[albumId].artist, albums[albumId].price);
     }
 
     // Artist adds an exclusive album represented by a MasterPieceToken
@@ -84,10 +87,10 @@ contract MusicPlatformInteractor {
         // address previousOwner = masterpieceToken.ownerOf(tokenId);
         address artist = exclusiveAlbums[tokenId].artist;
         uint256 royaltyAmount = (exclusiveAlbums[tokenId].price * exclusiveAlbums[tokenId].royaltyPercentage) / 100;
-
+        
         harmonyToken.transferHarmonyTokens(artist, royaltyAmount);
         // harmonyToken.transferHarmonyTokens(previousOwner, exclusiveAlbums[tokenId].price - royaltyAmount);
-        
+               
         masterpieceToken.transferTokenOwnership(tokenId, msg.sender);
     }
 
