@@ -1,5 +1,5 @@
 const contractConfig = {
-    contractAddress: '0xdDC5AC21e828747Ecb1b03Dd73750F2d6E7F090a',
+    contractAddress: '0xE5ad1A97B254C1f81574100365F493132636AC11',
     contractABI: [
         {
             "inputs": [
@@ -78,7 +78,7 @@ const contractConfig = {
             ],
             "name": "buyAlbum",
             "outputs": [],
-            "stateMutability": "nonpayable",
+            "stateMutability": "payable",
             "type": "function"
         },
         {
