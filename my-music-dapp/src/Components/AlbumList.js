@@ -10,6 +10,27 @@ const AlbumList = () => {
   const [albums, setAlbums] = useState([]);
 
   useEffect(() => {
+    const setupEventListener = async () => {
+        try {
+          const contract = new web3.eth.Contract(contractConfig.contractABI, contractConfig.contractAddress);
+    
+          // Real-time event listener for ExclusiveAlbumAdded events
+          contract.events.ExclusiveAlbumAdded({
+            fromBlock: 'latest'
+          })
+          .on('data', event => {
+            console.log('New Exclusive Album Added, Please refresh:', event.returnValues);
+            alert(`New album added, Please refresh: ${event.returnValues.albumName} by ${event.returnValues.artist}`);
+          })
+          .on('error', console.error);
+    
+        } catch (error) {
+          console.error('Error setting up event listener:', error);
+        }
+      };
+    
+      setupEventListener();
+    
     const fetchAlbums = async () => {
       try {
         const contract = new web3.eth.Contract(contractConfig.contractABI, contractConfig.contractAddress);

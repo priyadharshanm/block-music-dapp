@@ -9,20 +9,60 @@ const web3 = new Web3(window.ethereum);
 
 const HomePage = () => {
   const [albums, setAlbums] = useState([]);
+  const [account, setAccount] = useState(null);
 
   useEffect(() => {
+    const setupEventListener = async () => {
+        try {
+          const contract = new web3.eth.Contract(contractConfig.contractABI, contractConfig.contractAddress);
+    
+          // Real-time event listener for ExclusiveAlbumAdded events
+          contract.events.AlbumAdded({
+            fromBlock: 'latest'
+          })
+          .on('data', event => {
+            console.log('New Album Added, Please refresh:', event.returnValues);
+            alert(`New album added, Please refresh: ${event.returnValues.albumName} by ${event.returnValues.artist}`);
+          })
+          .on('error', console.error);
+    
+        } catch (error) {
+          console.error('Error setting up event listener:', error);
+        }
+      };
+    
+      setupEventListener();
+    
+    const loadBlockchainData = async () => {
+        const accounts = await web3.eth.getAccounts(); // Get list of accounts
+        
+        if (!accounts) throw new Error("No account is provided. Please connect to MetaMask.");
+  
+        if (accounts.length > 0) {
+            console.log(accounts[0])
+          setAccount(accounts[0]);
+        } else {
+          console.error("No account is provided. Please connect to MetaMask.");
+        }
+      };
     const fetchAlbums = async () => {
         try {
+        await loadBlockchainData();
           const contract = new web3.eth.Contract(contractConfig.contractABI, contractConfig.contractAddress);
           // Use the newly added function name
           const albumIds = await contract.methods.getAllAlbumIds().call();
       
-          const albumsData = await Promise.all(
-            albumIds.map(async (id) => {
-              const album = await contract.methods.albums(id).call();
-              return { id, ...album };
-            })
-          );
+           const albumsData = await Promise.all(
+          albumIds.map(async (id) => {
+            const album = await contract.methods.albums(id).call();
+            const accounts = await web3.eth.getAccounts(); // Get list of accounts
+        
+            if (!accounts) throw new Error("No account is provided. Please connect to MetaMask.");
+      
+            const bought = await contract.methods.hasBoughtAlbum(id, accounts[0]).call();
+            return { id, ...album, bought };
+          })
+        );
       
           setAlbums(albumsData);
         } catch (error) {
@@ -91,11 +131,16 @@ const handleBuyAlbum = async (tokenId, price) => {
         {albums.map((album, index) => (
           <div key={index} className="album">
             {/* Replace with actual path to album cover */}
-            <img src={album.coverUrl || 'default_album_cover.jpg'} alt={album.name} />
+            <img src={album.uri || 'default_album_cover.jpg'} alt={album.name} />
             <p>{album.name} [Buy for {album.price} HT]</p>
-            <button onClick={() => handleBuyAlbum(album.id, album.price)} className="buy-button">
-                            Buy Album
-                        </button>
+            {album.bought ? (
+              <button className="listen-button">Listen</button>
+            ) : (
+              <button onClick={() => handleBuyAlbum(album.id, album.price)} className="buy-button">
+                Buy Album
+              </button>
+            )}
+            
           </div>
         ))}
        

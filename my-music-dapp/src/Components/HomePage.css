@@ -58,6 +58,11 @@
     margin-bottom: 5px;
     border-radius: 10px; /* Adjust to match the design */
   }
+  .album img {
+    width: 100px !important; /* Only set the width for automatic height adjustment */
+    object-fit: cover;
+    border-radius: 10px;
+  }
   
   .see-more {
     background-color: #333; /* Adjust to match the design */
@@ -119,4 +124,18 @@
     color: black; /* Text color for the album info */
     margin: 5px 0; /* Spacing between lines of text */
   }
+  .listen-button {
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text */
+    padding: 10px 20px; /* Top and bottom padding of 10px, left and right padding of 20px */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 1rem; /* Font size of 1 rem */
+    margin-top: 10px; /* Space above the button */
+    transition: background-color 0.3s ease; /* Smooth background color transition on hover */
+  }
   
+  .listen-button:hover {
+    background-color: #45a049; /* Darker shade of green on hover */
+  }
