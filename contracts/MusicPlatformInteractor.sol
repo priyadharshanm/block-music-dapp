@@ -53,7 +53,7 @@ contract MusicPlatformInteractor {
 
    
     // User buys an album
-    function buyAlbum(uint256 albumId) external {
+    function buyAlbum(uint256 albumId) external payable {
         require(albums[albumId].artist != address(0), "Album doesn't exist");
         require(harmonyToken.balanceOf(msg.sender) >= albums[albumId].price, "Insufficient balance");
 

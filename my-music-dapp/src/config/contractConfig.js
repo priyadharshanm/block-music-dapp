@@ -1,5 +1,5 @@
 const contractConfig = {
-    contractAddress: '0xE5ad1A97B254C1f81574100365F493132636AC11',
+    contractAddress: '0xd53b631454D723cC9dc08ff014314254BCf06E8e',
     contractABI: [
         {
             "inputs": [
@@ -120,6 +120,11 @@ const contractConfig = {
             ],
             "name": "albums",
             "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "id",
+                    "type": "uint256"
+                },
                 {
                     "internalType": "address",
                     "name": "artist",

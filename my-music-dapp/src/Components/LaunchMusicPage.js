@@ -48,7 +48,8 @@ const web3 = new Web3(window.ethereum);
   
         const contract = new web3.eth.Contract(contractConfig.contractABI, contractConfig.contractAddress);
         // const priceInWei = web3.utils.toWei(priceInHarmonyTokens, 'ether'); // Convert price to Wei, if entering price in Ether
-  
+        // console.log("HT", priceInHarmonyTokens)
+        // console.log("wei", priceInWei)
         const response = await contract.methods
           .addNewAlbum(albumName, artist, priceInHarmonyTokens, metadataUri)
           .send({ from: accounts[0] }); // Use the first account to send the transaction
