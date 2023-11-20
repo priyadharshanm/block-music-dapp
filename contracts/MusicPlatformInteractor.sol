@@ -10,8 +10,21 @@ contract MusicPlatformInteractor {
     // HarmonyToken private harmonyToken;
     MasterPieceToken private masterpieceToken;
     uint256[] private exclusiveAlbumIds;
-
+    mapping(uint256 => address[]) public albumBuyers;
+    event ExclusiveAlbumAdded(
+        uint256 indexed tokenId,
+        address indexed artist,
+        string albumName,
+        uint256 price
+    );
+    event AlbumAdded(
+        uint256 indexed tokenId,
+        address indexed artist,
+        string albumName,
+        uint256 price
+    );
     struct Album {
+        uint256 id;
         address artist;
         string artistName;
         string name;
@@ -40,6 +53,7 @@ contract MusicPlatformInteractor {
     // Artist adds a new album and sets its price
     function addNewAlbum(string memory albumName, string memory artistName, uint256 price, string memory uri) external {
         Album memory newAlbum = Album({
+            id: nextAlbumId,
             artist: msg.sender,
             artistName: artistName,
             name: albumName,
@@ -49,15 +63,17 @@ contract MusicPlatformInteractor {
 
         albums[nextAlbumId] = newAlbum;
         nextAlbumId++;
+        emit AlbumAdded(nextAlbumId, msg.sender, albumName, price);
     }
 
    
     // User buys an album
-    function buyAlbum(uint256 albumId) external payable {
+    function buyAlbum(uint256 albumId) external payable{
         require(albums[albumId].artist != address(0), "Album doesn't exist");
         require(harmonyToken.balanceOf(msg.sender) >= albums[albumId].price, "Insufficient balance");
 
-        harmonyToken.transferHarmonyTokens(albums[albumId].artist, albums[albumId].price);
+        harmonyToken.transferHarmonyTokens(msg.sender, albums[albumId].artist, albums[albumId].price);
+        albumBuyers[albumId].push(msg.sender);
     }
 
     // Artist adds an exclusive album represented by a MasterPieceToken
@@ -75,6 +91,7 @@ contract MusicPlatformInteractor {
         });
         
         exclusiveAlbums[tokenId] = newAlbum;
+        emit ExclusiveAlbumAdded(tokenId, msg.sender, albumName, price);
         return tokenId;
     }
 
@@ -84,12 +101,12 @@ contract MusicPlatformInteractor {
         require(exclusiveAlbums[tokenId].artist != address(0), "Album doesn't exist");
         require(harmonyToken.balanceOf(msg.sender) >= exclusiveAlbums[tokenId].price, "Insufficient balance");
         
-        // address previousOwner = masterpieceToken.ownerOf(tokenId);
+        address previousOwner = masterpieceToken.ownerOf(tokenId);
         address artist = exclusiveAlbums[tokenId].artist;
         uint256 royaltyAmount = (exclusiveAlbums[tokenId].price * exclusiveAlbums[tokenId].royaltyPercentage) / 100;
         
-        harmonyToken.transferHarmonyTokens(artist, royaltyAmount);
-        // harmonyToken.transferHarmonyTokens(previousOwner, exclusiveAlbums[tokenId].price - royaltyAmount);
+        harmonyToken.transferHarmonyTokens(msg.sender, artist, royaltyAmount);
+        harmonyToken.transferHarmonyTokens(msg.sender, previousOwner, exclusiveAlbums[tokenId].price - royaltyAmount);
                
         masterpieceToken.transferTokenOwnership(tokenId, msg.sender);
     }
@@ -105,4 +122,14 @@ contract MusicPlatformInteractor {
         }
         return ids;
     }
+
+     function hasBoughtAlbum(uint256 albumId, address user) public view returns (bool) {
+        for (uint256 i = 0; i < albumBuyers[albumId].length; i++) {
+            if (albumBuyers[albumId][i] == user) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
