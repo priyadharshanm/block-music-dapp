@@ -30,7 +30,7 @@ interface IHarmonyToken {
 contract HarmonyToken is ERC20 {
 
     address public minter;
-    uint256 public constant tokenPrice = 1000000000000000 wei; 
+    uint256 public constant tokenPrice = 10 wei; 
 
 
     constructor() ERC20("Harmony Token", "HMT") {
