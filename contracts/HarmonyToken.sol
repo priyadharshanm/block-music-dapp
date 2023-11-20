@@ -17,7 +17,7 @@ interface IHarmonyToken {
     function transferTokens(address recipient, uint256 amount) external;
 
     // Function to transfer HarmonyTokens (seems duplicate, consider removing one)
-    function transferHarmonyTokens(address recipient, uint256 amount) external;
+    function transferHarmonyTokens(address sender, address recipient, uint256 amount) external;
 
     function balanceOf(address account) external view returns (uint256);
     // Declaration of the transferFrom function
@@ -57,8 +57,8 @@ contract HarmonyToken is ERC20 {
     }
     receive() external payable {}
 
-    function transferHarmonyTokens(address recipient, uint256 amount) external{
-        _transfer(msg.sender, recipient,amount);
+    function transferHarmonyTokens(address sender, address recipient, uint256 amount) external{
+        _transfer(sender, recipient,amount);
     }
      // Withdraw ETH from the contract (only owner)
     function withdrawETH() external {

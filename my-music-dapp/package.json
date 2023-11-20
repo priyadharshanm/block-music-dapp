@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^13.5.0",
     "assert": "^2.1.0",
     "fs": "^0.0.1-security",
+    "hardhat": "^2.19.1",
     "http": "^0.0.1-security",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -42,5 +43,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "ethers": "^6.8.1"
   }
 }
