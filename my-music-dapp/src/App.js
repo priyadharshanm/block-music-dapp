@@ -5,6 +5,7 @@ import LaunchMusicPage from './Components/LaunchMusicPage';
 import AlbumList from './Components/AlbumList';
 import HomePage from './Components/HomePage';
 import './App.css'; // Import your main stylesheet here
+import RewardFan from './Components/RewardFan';
 
 function App() {
   return (
@@ -16,12 +17,15 @@ function App() {
             <NavLink to="/home" className="nav-link" activeClassName="active">Home</NavLink>
             <NavLink to="/launch" className="nav-link" activeClassName="active">Launch Music</NavLink>
             <NavLink to="/albums" className="nav-link" activeClassName="active">View Albums</NavLink>
+            <NavLink to="/reward" className="nav-link" activeClassName="active">Reward Fan</NavLink>
+
           </div>
         </nav>
         <Routes>
           <Route path="/home" element={<HomePage />} />
           <Route path="/launch" element={<LaunchMusicPage />} />
           <Route path="/albums" element={<AlbumList />} />
+          <Route path="/reward" element={<RewardFan />} />
           {/* Add more Route components as needed for additional URLs */}
         </Routes>
       </div>

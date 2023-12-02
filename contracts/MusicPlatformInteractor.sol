@@ -3,9 +3,17 @@ pragma solidity ^0.8.2;
 
 import "./MasterPieceToken.sol";
 import "./HarmonyToken.sol";
+import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-
-contract MusicPlatformInteractor {
+contract MusicPlatformInteractor is ERC1155 {
+    address owner;
+       constructor(address _harmonyToken, address _masterpieceToken, string memory _uri) ERC1155(_uri) {
+        owner = msg.sender;
+        harmonyToken = IHarmonyToken(_harmonyToken);
+        masterpieceToken = MasterPieceToken(_masterpieceToken);
+    }
+    
     IHarmonyToken public harmonyToken;
     // HarmonyToken private harmonyToken;
     MasterPieceToken private masterpieceToken;
@@ -23,6 +31,11 @@ contract MusicPlatformInteractor {
         string albumName,
         uint256 price
     );
+     modifier ownerOnly() {
+        require(msg.sender == owner, "Caller is not the owner");
+        _; 
+    }
+
     struct Album {
         uint256 id;
         address artist;
@@ -45,11 +58,7 @@ contract MusicPlatformInteractor {
     mapping(uint256 => Album) public albums;  // albumId to Album details
     uint256 public nextAlbumId = 1;
 
-    constructor(address _harmonyToken, address _masterpieceToken) {
-        harmonyToken = IHarmonyToken(_harmonyToken);
-        masterpieceToken = MasterPieceToken(_masterpieceToken);
-    }
-
+ 
     // Artist adds a new album and sets its price
     function addNewAlbum(string memory albumName, string memory artistName, uint256 price, string memory uri) external {
         Album memory newAlbum = Album({
@@ -131,5 +140,22 @@ contract MusicPlatformInteractor {
         }
         return false;
     }
+
+
+    function rewardFan(
+        address fan,
+        uint256[] memory tokenIds,
+        uint256[] memory amounts,
+        bytes memory data
+    ) public ownerOnly {
+        require(tokenIds.length == amounts.length, "TokenIds and amounts length mismatch");
+
+        // Mint the tokens to the contract itself before transferring
+        _mintBatch(msg.sender, tokenIds, amounts, data);
+
+        // Transfer the tokens from the contract to the fan
+        safeBatchTransferFrom(msg.sender, fan, tokenIds, amounts, "0x0");
+    }
+
 
 }
