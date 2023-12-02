@@ -141,8 +141,38 @@ contract MusicPlatformInteractor is ERC1155 {
         return false;
     }
 
+  
+    // Gift package application: Implementing _mintBatch
+    function mintBatch(address to, uint256[] memory ids, uint256[] memory amounts, bytes memory data) public ownerOnly
+    {
+        _mintBatch(to, ids, amounts, data);
+    }
+
+    // Additional helper function to mint and distribute a gift package
+    function mintAndDistributeGiftPackage (
+        address[] memory recipients,
+        uint256[] memory albumIds, // assuming album IDs are token IDs
+        uint256[] memory amounts, // amounts for each album
+        string[] memory uris // metadata uris for each album
+    )
+        public
+    {
+        require(recipients.length == albumIds.length && recipients.length == uris.length, "Input array lengths must match");
+        
+        for (uint256 i = 0; i < recipients.length; i++) {
+            // Mint the album tokens to the contract itself before distribution
+            _mintBatch(address(this), albumIds, amounts, "");
+
+            // Set token URI for each new album
+            _setURI( uris[i]);
+
+            // Distribute the album tokens to the recipients
+            safeBatchTransferFrom(address(this), recipients[i], albumIds, amounts, "");
+        }
+    }
 
     function rewardFan(
+        address sender,
         address fan,
         uint256[] memory tokenIds,
         uint256[] memory amounts,
@@ -151,10 +181,10 @@ contract MusicPlatformInteractor is ERC1155 {
         require(tokenIds.length == amounts.length, "TokenIds and amounts length mismatch");
 
         // Mint the tokens to the contract itself before transferring
-        _mintBatch(msg.sender, tokenIds, amounts, data);
+        _mintBatch(sender, tokenIds, amounts, data);
 
         // Transfer the tokens from the contract to the fan
-        safeBatchTransferFrom(msg.sender, fan, tokenIds, amounts, "0x0");
+        safeBatchTransferFrom(sender, fan, tokenIds, amounts, "0x0");
     }
 
 
