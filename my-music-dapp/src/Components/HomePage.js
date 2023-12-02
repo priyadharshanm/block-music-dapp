@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Web3 from 'web3';
 import './HomePage.css';
-import contractConfig from '../config/contractConfig';
+// import contractConfig from '../config/contractConfig';
+import contractConfig from '../config/contractsConfig.json';
+import MyContractABI from 'contracts/MusicPlatformInteractor.json';
 
 
 const web3 = new Web3(window.ethereum);
@@ -14,7 +16,7 @@ const HomePage = () => {
   useEffect(() => {
     const setupEventListener = async () => {
         try {
-          const contract = new web3.eth.Contract(contractConfig.contractABI, contractConfig.contractAddress);
+          const contract = new web3.eth.Contract(MyContractABI.abi, contractConfig.MusicPlatformInteractor);
     
           // Real-time event listener for ExclusiveAlbumAdded events
           contract.events.AlbumAdded({
@@ -48,7 +50,7 @@ const HomePage = () => {
     const fetchAlbums = async () => {
         try {
         await loadBlockchainData();
-          const contract = new web3.eth.Contract(contractConfig.contractABI, contractConfig.contractAddress);
+          const contract = new web3.eth.Contract(MyContractABI.abi, contractConfig.MusicPlatformInteractor);
           // Use the newly added function name
           const albumIds = await contract.methods.getAllAlbumIds().call();
       
@@ -86,13 +88,13 @@ const handleBuyAlbum = async (tokenId, price) => {
       if (!accounts) throw new Error("No account is provided. Please connect to MetaMask.");
   
       // Create a new contract instance with the ABI and address
-      const contract = new web3.eth.Contract(contractConfig.contractABI, contractConfig.contractAddress);
+      const contract = new web3.eth.Contract(MyContractABI.abi, contractConfig.MusicPlatformInteractor);
       // Call the buyExclusiveAlbum method from the smart contract
       try {
         // Request account access if needed
         window.ethereum.enable().then(() => {
             // Account now exposed, can call contract methods
-            const contract = new web3.eth.Contract(contractConfig.contractABI, contractConfig.contractAddress);
+            const contract = new web3.eth.Contract(MyContractABI.abi, contractConfig.MusicPlatformInteractor);
             contract.methods.buyAlbum(tokenId)
                 .send({ from: accounts[0]})
                 .then(result => {

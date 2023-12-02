@@ -5,7 +5,7 @@ import LaunchMusicPage from './Components/LaunchMusicPage';
 import AlbumList from './Components/AlbumList';
 import HomePage from './Components/HomePage';
 import './App.css'; // Import your main stylesheet here
-import RewardFan from './Components/RewardFan';
+// import RewardFan from './Components/RewardFan';
 
 function App() {
   return (
@@ -25,7 +25,7 @@ function App() {
           <Route path="/home" element={<HomePage />} />
           <Route path="/launch" element={<LaunchMusicPage />} />
           <Route path="/albums" element={<AlbumList />} />
-          <Route path="/reward" element={<RewardFan />} />
+          {/* <Route path="/reward" element={<RewardFan />} /> */}
           {/* Add more Route components as needed for additional URLs */}
         </Routes>
       </div>

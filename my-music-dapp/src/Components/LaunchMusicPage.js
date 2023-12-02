@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import './LaunchMusicPage.css'; // Make sure to create a corresponding CSS file.
 import Web3 from 'web3';
-import contractConfig from '../config/contractConfig';
+// import contractConfig from '../config/contractConfig';
+
+import contractConfig from '../config/contractsConfig.json';
+import MyContractABI from 'contracts/MusicPlatformInteractor.json';
+
 import axios from 'axios'; // Import axios for HTTP requests
 
 const web3 = new Web3(window.ethereum);
@@ -25,7 +29,7 @@ const web3 = new Web3(window.ethereum);
         
         if (!accounts) throw new Error("No account is provided. Please connect to MetaMask.");
   
-        const contract = new web3.eth.Contract(contractConfig.contractABI, contractConfig.contractAddress);
+        const contract = new web3.eth.Contract(MyContractABI.abi, contractConfig.MusicPlatformInteractor);
         // const priceInWei = web3.utils.toWei(priceInHarmonyTokens, 'ether'); // Convert price to Wei, if entering price in Ether
   
         const response = await contract.methods
@@ -46,7 +50,7 @@ const web3 = new Web3(window.ethereum);
         
         if (!accounts) throw new Error("No account is provided. Please connect to MetaMask.");
   
-        const contract = new web3.eth.Contract(contractConfig.contractABI, contractConfig.contractAddress);
+        const contract = new web3.eth.Contract(MyContractABI.abi, contractConfig.MusicPlatformInteractor);
         // const priceInWei = web3.utils.toWei(priceInHarmonyTokens, 'ether'); // Convert price to Wei, if entering price in Ether
         // console.log("HT", priceInHarmonyTokens)
         // console.log("wei", priceInWei)
