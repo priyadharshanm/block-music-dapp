@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "prebuild": "cp -r ./build/contracts ./src/contracts",
+    "build": "react-scripts build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -11,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@openzeppelin/contracts": "^5.0.0",
+    "@truffle/hdwallet-provider": "^2.1.15",
     "react-router-dom": "^6.18.0",
     "solc": "^0.8.23-fixed"
   }
