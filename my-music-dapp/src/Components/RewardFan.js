@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Web3 from 'web3';
-import contractConfig from '../config/contractConfig';
-
+import contractConfig from '../config/contractsConfig.json';
+import MyContractABI from '../config/abi.json';
 const RewardFan = () => {
     const [fanAddress, setFanAddress] = useState('');
     const [tokenIds, setTokenIds] = useState([]);
@@ -14,7 +14,7 @@ const RewardFan = () => {
             const accounts = await web3.eth.getAccounts();
             if (!accounts) throw new Error("No account is provided. Please connect to MetaMask.");
 
-            const contract = new web3.eth.Contract(contractConfig.contractABI, contractConfig.contractAddress);
+            const contract = new web3.eth.Contract(MyContractABI, contractConfig.MusicPlatformInteractor);
 
             await contract.methods.rewardFan(fanAddress, tokenIds, amounts, "0x")
                 .send({ from: accounts[0] });
