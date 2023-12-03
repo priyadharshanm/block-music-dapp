@@ -87,11 +87,15 @@ contract MusicPlatformInteractor is ERC1155 {
    
     // User buys an album
     function buyAlbum(uint256 albumId) external payable{
-        require(albums[albumId].artist != address(0), "Album doesn't exist");
-        require(harmonyToken.balanceOf(msg.sender) >= albums[albumId].price, "Insufficient balance");
+       require(albums[albumId].artist != address(0), "Album doesn't exist");
 
-        harmonyToken.transferHarmonyTokens(msg.sender, albums[albumId].artist, albums[albumId].price);
-        albumBuyers[albumId].push(msg.sender);
+    // Get the album price in the smallest unit of the token
+    uint256 priceInSmallestUnit = albums[albumId].price * (10 ** harmonyToken.decimals());
+
+    require(harmonyToken.balanceOf(msg.sender) >= priceInSmallestUnit, "Insufficient balance");
+
+    harmonyToken.transferHarmonyTokens(msg.sender, albums[albumId].artist, priceInSmallestUnit);
+    albumBuyers[albumId].push(msg.sender);
     }
 
     // Artist adds an exclusive album represented by a MasterPieceToken
