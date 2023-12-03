@@ -1,7 +1,12 @@
+
+
+import './RewardFan.css';
+
 import React, { useState, useEffect } from 'react';
 import Web3 from 'web3';
 import './HomePage.css';
-import contractConfig from '../config/contractConfig';
+import contractConfig from '../config/contractsConfig.json';
+import MyContractABI from '../config/abi.json';
 const RewardFan = () => {
     const [fanAddress, setFanAddress] = useState('');
     const [concertPassAmount, setConcertPassAmount] = useState(0);
@@ -16,7 +21,7 @@ const RewardFan = () => {
     const checkBalance = async () => {
         try {
         const tokenID = [1,2]; // Assuming 1 is for Concert Pass and 2 for Backstage Pass
-        const contract = new web3.eth.Contract(contractConfig.contractABI, contractConfig.contractAddress);
+        const contract = new web3.eth.Contract(MyContractABI, contractConfig.MusicPlatformInteractor);
 
         // Replace with the actual contract method name and parameters
         const bigIntBalances = await contract.methods.balanceOfBatch([fanAddressForBalance,fanAddressForBalance], tokenID).call();
@@ -34,7 +39,7 @@ const RewardFan = () => {
             const accounts = await web3.eth.getAccounts();
             if (!accounts) throw new Error("No account is provided. Please connect to MetaMask.");
 
-            const contract = new web3.eth.Contract(contractConfig.contractABI, contractConfig.contractAddress);
+            const contract = new web3.eth.Contract(MyContractABI, contractConfig.MusicPlatformInteractor);
             const tokenIds = [1, 2]; // Predefined token IDs
             const amounts = [concertPassAmount, backstagePassAmount]; // Amounts for each token
 
@@ -54,6 +59,7 @@ const RewardFan = () => {
 
     return (
         <div className="reward-fan">
+             <div className="reward-fan-container">
             <h2>Reward a Fan</h2>
             <label>Fan Address:</label>
             <input 
@@ -100,6 +106,7 @@ const RewardFan = () => {
             </div>
         )}
       </section>
+      </div>
         </div>
     );
 };
