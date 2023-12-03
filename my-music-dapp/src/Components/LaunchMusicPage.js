@@ -74,7 +74,7 @@ const web3 = new Web3(window.ethereum);
       try {
         setUploadStatus('Uploading...');
         // Replace 'your-backend-endpoint' with your actual backend endpoint
-        const response = await axios.post('http://18.189.26.14:3001/upload', formData, {
+        const response = await axios.post('http://localhost:3001/upload', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
