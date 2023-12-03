@@ -25,7 +25,7 @@ function App() {
           <Route path="/home" element={<HomePage />} />
           <Route path="/launch" element={<LaunchMusicPage />} />
           <Route path="/albums" element={<AlbumList />} />
-          <Route path="/reward" element={<RewardFan />} />
+          <Route path="/reward" element={<RewardFan />}/>
           {/* Add more Route components as needed for additional URLs */}
         </Routes>
       </div>

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Web3 from 'web3';
+import './HomePage.css';
 import contractConfig from '../config/contractConfig';
-
 const RewardFan = () => {
     const [fanAddress, setFanAddress] = useState('');
     const [concertPassAmount, setConcertPassAmount] = useState(0);

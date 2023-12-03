@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Web3 from 'web3';
 import './AlbumList.css';
-import contractConfig from '../config/contractConfig';
+import contractConfig from '../config/contractsConfig.json';
+import MyContractABI from '../config/abi.json';
+
 
 const web3 = new Web3(window.ethereum);
-// const contractAddress = '0xd44f06be272A392b4f5b59F442b20CA0146f3d19'; 
+// const MusicPlatformInteractor = '0xd44f06be272A392b4f5b59F442b20CA0146f3d19'; 
 
 const AlbumList = () => {
   const [albums, setAlbums] = useState([]);
@@ -12,7 +14,7 @@ const AlbumList = () => {
   useEffect(() => {
     const setupEventListener = async () => {
         try {
-          const contract = new web3.eth.Contract(contractConfig.contractABI, contractConfig.contractAddress);
+          const contract = new web3.eth.Contract(MyContractABI, contractConfig.MusicPlatformInteractor);
     
           // Real-time event listener for ExclusiveAlbumAdded events
           contract.events.ExclusiveAlbumAdded({
@@ -33,7 +35,7 @@ const AlbumList = () => {
     
     const fetchAlbums = async () => {
       try {
-        const contract = new web3.eth.Contract(contractConfig.contractABI, contractConfig.contractAddress);
+        const contract = new web3.eth.Contract(MyContractABI, contractConfig.MusicPlatformInteractor);
         // Assuming your contract has a method to get all albums or a range of album IDs
         const albumIds = await contract.methods.getExclusiveAlbumIds().call();
         console.log(albumIds)
@@ -80,13 +82,13 @@ const AlbumList = () => {
       if (!accounts) throw new Error("No account is provided. Please connect to MetaMask.");
   
       // Create a new contract instance with the ABI and address
-      const contract = new web3.eth.Contract(contractConfig.contractABI, contractConfig.contractAddress);
+      const contract = new web3.eth.Contract(MyContractABI, contractConfig.MusicPlatformInteractor);
       // Call the buyExclusiveAlbum method from the smart contract
       try {
         // Request account access if needed
         window.ethereum.enable().then(() => {
             // Account now exposed, can call contract methods
-            const contract = new web3.eth.Contract(contractConfig.contractABI, contractConfig.contractAddress);
+            const contract = new web3.eth.Contract(MyContractABI, contractConfig.MusicPlatformInteractor);
             contract.methods.buyExclusiveAlbum(tokenId)
                 .send({ from: accounts[0]})
                 .then(result => {
