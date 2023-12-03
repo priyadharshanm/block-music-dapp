@@ -83,14 +83,16 @@ contract MusicPlatformInteractor is ERC1155 {
         nextAlbumId++;
         emit AlbumAdded(nextAlbumId, msg.sender, albumName, price);
     }
-
+   function decimals() public view virtual returns (uint8) {
+        return 18;
+    }
    
     // User buys an album
     function buyAlbum(uint256 albumId) external payable{
        require(albums[albumId].artist != address(0), "Album doesn't exist");
 
     // Get the album price in the smallest unit of the token
-    uint256 priceInSmallestUnit = albums[albumId].price * (10 ** harmonyToken.decimals());
+    uint256 priceInSmallestUnit = albums[albumId].price * (10 ** decimals());
 
     require(harmonyToken.balanceOf(msg.sender) >= priceInSmallestUnit, "Insufficient balance");
 
