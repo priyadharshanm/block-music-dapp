@@ -128,7 +128,7 @@ contract MusicPlatformInteractor is ERC1155 {
         address previousOwner = masterpieceToken.ownerOf(tokenId);
         address artist = exclusiveAlbums[tokenId].artist;
         uint256 priceInSmallestUnit = exclusiveAlbums[tokenId].price * (10 ** decimals());
-        uint256 royaltyAmount = (priceInSmallestUnite * exclusiveAlbums[tokenId].royaltyPercentage) / 100;
+        uint256 royaltyAmount = (priceInSmallestUnit * exclusiveAlbums[tokenId].royaltyPercentage) / 100;
         
         harmonyToken.transferHarmonyTokens(msg.sender, artist, royaltyAmount);
         harmonyToken.transferHarmonyTokens(msg.sender, previousOwner, priceInSmallestUnit - royaltyAmount);
