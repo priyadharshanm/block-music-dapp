@@ -69,7 +69,7 @@ contract MusicPlatformInteractor is ERC1155 {
 
  
     // Artist adds a new album and sets its price
-    function addNewAlbum(string memory albumName, string memory artistName, uint256 price, string memory uri) validPrice(price){
+    function addNewAlbum(string memory albumName, string memory artistName, uint256 price, string memory uri) public validPrice(price){
         Album memory newAlbum = Album({
             id: nextAlbumId,
             artist: msg.sender,
