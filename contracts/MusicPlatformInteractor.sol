@@ -35,6 +35,15 @@ contract MusicPlatformInteractor is ERC1155 {
         require(msg.sender == owner, "Caller is not the owner");
         _; 
     }
+    modifier validPrice(uint256 price) {
+    require(price > 0, "Price must be greater than zero");
+    _;
+    }
+    modifier royaltyRange(uint256 royaltyPercentage) {
+    require(royaltyPercentage >= 0 && royaltyPercentage <= 100, "Royalty percentage out of range");
+    _;
+}
+
 
     struct Album {
         uint256 id;
@@ -60,7 +69,7 @@ contract MusicPlatformInteractor is ERC1155 {
 
  
     // Artist adds a new album and sets its price
-    function addNewAlbum(string memory albumName, string memory artistName, uint256 price, string memory uri) external {
+    function addNewAlbum(string memory albumName, string memory artistName, uint256 price, string memory uri) validPrice(price){
         Album memory newAlbum = Album({
             id: nextAlbumId,
             artist: msg.sender,
@@ -78,15 +87,19 @@ contract MusicPlatformInteractor is ERC1155 {
    
     // User buys an album
     function buyAlbum(uint256 albumId) external payable{
-        require(albums[albumId].artist != address(0), "Album doesn't exist");
-        require(harmonyToken.balanceOf(msg.sender) >= albums[albumId].price, "Insufficient balance");
+       require(albums[albumId].artist != address(0), "Album doesn't exist");
 
-        harmonyToken.transferHarmonyTokens(msg.sender, albums[albumId].artist, albums[albumId].price);
-        albumBuyers[albumId].push(msg.sender);
+    // Get the album price in the smallest unit of the token
+    uint256 priceInSmallestUnit = albums[albumId].price * (10 ** harmonyToken.decimals());
+
+    require(harmonyToken.balanceOf(msg.sender) >= priceInSmallestUnit, "Insufficient balance");
+
+    harmonyToken.transferHarmonyTokens(msg.sender, albums[albumId].artist, priceInSmallestUnit);
+    albumBuyers[albumId].push(msg.sender);
     }
 
     // Artist adds an exclusive album represented by a MasterPieceToken
-    function addExclusiveAlbum(string memory albumName, string memory artistName, uint256 price, uint256 royaltyPercentage, string memory uri) external returns (uint256) {
+    function addExclusiveAlbum(string memory albumName, string memory artistName, uint256 price, uint256 royaltyPercentage, string memory uri) external returns (uint256) royaltyRange(royaltyPercentage){
         uint256 tokenId = masterpieceToken.mintMasterpieceToken(msg.sender, uri);
         exclusiveAlbumIds.push(tokenId);
         ExclusiveAlbum memory newAlbum = ExclusiveAlbum({
