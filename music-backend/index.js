@@ -6,7 +6,17 @@ const AWS = require('aws-sdk');
 
 const app = express();
 const port = 3001;
+const allowedOrigins = ['http://18.189.26.14:3000', 'http://localhost:3000']; // Replace with your EC2 instance URL
 
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    }
+};
 // Enable CORS
 app.use(cors());
 
