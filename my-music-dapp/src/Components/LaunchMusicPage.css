@@ -69,17 +69,19 @@
   /* LaunchMusicPage.css */
 
   .launch-music-container {
-    background: url('1.jpeg') no-repeat center center;
+    background: url('dvd.jpeg') no-repeat center center;
     background-size: cover;
+    height: 700px;
   }
   
   .launch-music-content {
-    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+    background-color: rgba(0, 0, 0, 0.3); /* Semi-transparent black background */
     border-radius: 10px;
-    padding: 20px;
-    max-width: 500px;
-    margin: auto;
+    padding: 60px;
+    max-width: 370px;
+    /* margin: auto; */
     color: white; /* White text color */
+    margin-left: 210px;
   }
   
   .launch-music-content label,
@@ -98,13 +100,13 @@
   }
   
   .launch-music-content button {
-    background-color: #654b89; /* Green background for buttons */
+    background-color: #7b7b7b; /* Green background for buttons */
     color: white;
     cursor: pointer;
   }
   
   .launch-music-content button:hover {
-    background-color: #654b89; /* Darker green on hover */
+    background-color: #484848; /* Darker green on hover */
   }
   
   /* Add additional styles for other elements as needed */

@@ -60,7 +60,7 @@
     letter-spacing: 2px;
   }
   .reward-fan-container {
-    background: rgba(0, 0, 0, 1); /* Semi-transparent black */
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
     border-radius: 15px; /* Rounded corners */
     padding: 20px; /* Some padding around the content */
     width: fit-content; /* Adjust the width as necessary */
@@ -72,7 +72,7 @@
   /* Style the button */
   .reward-fan button {
     padding: 10px 20px;
-    background-color: #21d192; /* Or any color that fits the theme */
+    background-color: #c8c8c8; /* Or any color that fits the theme */
     border: none;
     border-radius: 5px;
     color: #fff;
@@ -83,7 +83,7 @@
   
   /* Add hover effect for the button */
   .reward-fan button:hover {
-    background-color: #1aa17a;
+    background-color: #8d8d8d;
   }
   
   /* Rest of your styles... */
@@ -107,7 +107,7 @@
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    background-color: #21d192; /* A bright accent color */
+    background-color: #909090; /* A bright accent color */
     color: #fff;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -115,7 +115,7 @@
   }
   
   .reward-fan button:hover {
-    background-color: #1aa17a; /* A slightly darker shade for hover effect */
+    background-color: #494949; /* A slightly darker shade for hover effect */
   }
   
   /* Responsive adjustments */

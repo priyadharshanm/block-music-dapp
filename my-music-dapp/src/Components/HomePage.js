@@ -60,7 +60,6 @@ const HomePage = () => {
             const accounts = await web3.eth.getAccounts(); // Get list of accounts
         
             if (!accounts) throw new Error("No account is provided. Please connect to MetaMask.");
-      
             const bought = await contract.methods.hasBoughtAlbum(id, accounts[0]).call();
             return { id, ...album, bought };
           })
@@ -134,7 +133,7 @@ const handleBuyAlbum = async (tokenId, price) => {
           <div key={index} className="album">
             {/* Replace with actual path to album cover */}
             <img src={album.uri || 'default_album_cover.jpg'} alt={album.name} />
-            <p>{album.name} [Buy for {album.price} HT]</p>
+            <p>{album.name} [Buy for {Number(album.price)} HT]</p>
             {album.bought ? (
               <button className="listen-button">Listen</button>
             ) : (
