@@ -1,5 +1,5 @@
 const contractConfig = {
-    contractAddress: '0x573cB384e28f4C5949Fc2Fc16372c67ED24222C6',
+    contractAddress: '0xe71C540C3A42e5A60F54DcEbA63d450549CC6FfD',
     contractABI: [
         {
             "inputs": [
@@ -303,62 +303,6 @@ const contractConfig = {
             ],
             "name": "ExclusiveAlbumAdded",
             "type": "event"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address[]",
-                    "name": "recipients",
-                    "type": "address[]"
-                },
-                {
-                    "internalType": "uint256[]",
-                    "name": "albumIds",
-                    "type": "uint256[]"
-                },
-                {
-                    "internalType": "uint256[]",
-                    "name": "amounts",
-                    "type": "uint256[]"
-                },
-                {
-                    "internalType": "string[]",
-                    "name": "uris",
-                    "type": "string[]"
-                }
-            ],
-            "name": "mintAndDistributeGiftPackage",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "to",
-                    "type": "address"
-                },
-                {
-                    "internalType": "uint256[]",
-                    "name": "ids",
-                    "type": "uint256[]"
-                },
-                {
-                    "internalType": "uint256[]",
-                    "name": "amounts",
-                    "type": "uint256[]"
-                },
-                {
-                    "internalType": "bytes",
-                    "name": "data",
-                    "type": "bytes"
-                }
-            ],
-            "name": "mintBatch",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
         },
         {
             "inputs": [

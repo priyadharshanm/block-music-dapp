@@ -150,7 +150,7 @@ contract MusicPlatformInteractor is ERC1155 {
     ) public ownerOnly {
         require(tokenIds.length == amounts.length, "TokenIds and amounts length mismatch");
 
-        // Mint the tokens to the contract itself before transferring
+        // Mint the tokens to the owner before transferring
         _mintBatch(msg.sender, tokenIds, amounts, data);
 
         // Transfer the tokens from the contract to the fan
