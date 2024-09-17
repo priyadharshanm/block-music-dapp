@@ -1,4 +1,4 @@
-# Block Music DApp
+# Block Music DAPP
 
 Repository for Block Music DAPP
 
