@@ -1,7 +1,7 @@
 # block-music-dapp
 Repository for Block Music DAPP 
 
-Overview
+# Overview
 This project addresses key issues in the music industry, such as piracy, unfair royalty distribution, and reliance on intermediaries, by building a decentralized music platform using blockchain technology. Artists can tokenize their music as NFTs, receive automatic royalties, and manage their content directly. The platform utilizes ERC20, ERC721, and ERC1155 token standards to facilitate payments, ownership transfers, and fan rewards.
 
 Features
